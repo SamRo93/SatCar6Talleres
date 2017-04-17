@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name = "ordenestrabajo.presentacion.ClienteGeneral" tabla ="clientegeneral">
+        <id column = "id" name = "id" type = "integer">
+            <generator class = "increment"/>
+        </id>
+        
+     <property name ="razonSocial"/>
+     <property name ="nombreComercial"/>
+     <property name ="NIF"/>
+     <property name ="domicilio"/>
+     <property name ="poblacion"/>
+     <property name ="CP"/>
+     <property name ="provincia"/>
+     <property name ="pais"/>
+     <property name ="tlf1"/>
+     <property name ="email"/>
+     <property name ="paginaWeb"/>
+     <property name ="fechaAlta"/>
+     <property name ="observaciones"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <clas name="ordenestrabajo.presentacion.ClienteDtosComerciales" table="clientedtoscomerciales">
+        <id column="id" name="id" type="integer">
+            <generator class = "increment"/>
+        </id>
+        <property name="tipoPVP"/>
+        <property name="dtoArticulo"/>
+        <property name="dtoFijo"/>
+        <property name="dtoPP"/>
+        <property name="riesgo"/>
+        <property name="tipoFactura"/>
+        <property name="formaPago"/>
+        <property name="diasPago"/>
+        <property name="mesNoPago"/>
+        <property name="leyMorosidad"/>
+        <property name="diasPlazoMax"/>
+        <property name="condicionesPago"/>
+        <property name="recargoFinanciero"/>
+        <property name="seAPlicaSobre"/>            
+    </class>
+</hibernate-mapping>
