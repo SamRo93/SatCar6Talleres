@@ -5,19 +5,29 @@
  */
 package ordenestrabajo.presentacion;
 
+import javax.persistence.*;
 import ordenestrabajo.dao_persistencia.*;
 
 /**
  *
  * @author Samuel
  */
+@Entity
+@Table(name="partedercoche")
 public class ParteDerCocheController {
-    private int codigo;
+    
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+    
+    @Column(name="obsParteDer")
     private String obsParteDer;
+    @Column(name="materialesDer")
     private String materialesDer;
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setID(int id) {
+        this.id = id;
     }
 
     public void setObsParteDer(String obsParteDer) {
@@ -28,8 +38,8 @@ public class ParteDerCocheController {
         this.materialesDer = materialesDer;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public int getId() {
+        return id;
     }
 
     public String getObsParteDer() {

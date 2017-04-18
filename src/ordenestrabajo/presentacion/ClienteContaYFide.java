@@ -5,24 +5,45 @@
  */
 package ordenestrabajo.presentacion;
 
+import javax.persistence.*;
+
 /**
  *
  * @author Samuel
  */
+
+@Entity
+@Table(name="clientecontayfide")
 public class ClienteContaYFide {
     
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
+    
+    @Column(name="cuentaCliente")
     private String cuentaCliente;
+    @Column(name="cuentaVentas")
     private String cuentaVentas;
+    @Column(name="cuentaRecargoFinanciero")
     private String cuentaRecargoFinanciero;
+    @Column(name="cuentaDto")
     private String cuentaDto;
+    @Column(name="cuentaDtoPP")
     private String cuentaDtoPP;
+    @Column(name="cuentaPortes")
     private String cuentaPortes;
+    @Column(name="NTarjeta")
     private String NTarjeta;
+    @Column(name="fechaNacimiento")
     private String fechaNacimiento;
+    @Column(name="puntos")
     private String puntos;
+    @Column(name="fechaVtoPuntos")
     private String fechaVtoPuntos;
+    @Column(name="eurosReales")
     private String eurosReales;
+    @Column(name="fechaVtoEuros")
     private String fechaVtoEuros;
 
     public int getId() {

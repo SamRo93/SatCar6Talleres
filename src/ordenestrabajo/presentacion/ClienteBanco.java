@@ -5,24 +5,49 @@
  */
 package ordenestrabajo.presentacion;
 
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.*;
+
 /**
  *
  * @author Samuel
  */
-public class ClienteBanco {
-    
+@Entity
+@Table(name="clientebanco")
+
+public class ClienteBanco implements Serializable{
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
+    
+    @Column(name="banco")
     private String banco;
+    @Column(name="codigPais")
     private String codigoPais;
+    @Column(name="titular")
     private String titular;
+    @Column(name="codCuentaBancaria")
     private String codCuentaBancaria;
+    @Column(name="codDevolucion")
     private String codDevolucion;
+    @Column(name="codIntCuentaBancaria")
     private String codIntCuentaBancaria;
+    @Column(name="IBAN")
     private String IBAN;
+    @Column(name="adeudoSepa")
     private String adeudoSepa;
+    @Column(name="tipoSecuencia")
     private String tipoSecuencia;
+    @Column(name="referenciaMandato")
     private String referenciaMandato;
+    @Column(name="fechaMandato")
     private String fechaMandato;
+    @Column(name="bancoAcreedor")
     private String bancoAcreedor;
 
     public int getId() {
@@ -127,8 +152,5 @@ public class ClienteBanco {
 
     public void setBancoAcreedor(String bancoAcreedor) {
         this.bancoAcreedor = bancoAcreedor;
-    }
-    
-    
-    
+    }    
 }

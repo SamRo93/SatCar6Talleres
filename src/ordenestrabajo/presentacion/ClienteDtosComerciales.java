@@ -5,26 +5,48 @@
  */
 package ordenestrabajo.presentacion;
 
+import javax.persistence.*;
+
 /**
  *
  * @author Samuel
  */
+@Entity
+@Table(name="clientedtoscomerciales")
 public class ClienteDtosComerciales {
     
+     @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
+     
+    @Column(name="tipoPVP")
     private String tipoPVP;
+    @Column(name="dtoArticulo")
     private String dtoArticulo;
+    @Column(name="dtoFijo")
     private String dtoFijo;
+    @Column(name="dtoPP")
     private String dtoPP;
+    @Column(name="riesgo")
     private String riesgo;
+    @Column(name="tipoFactura")
     private String tipoFactura;
+    @Column(name="formaPago")
     private String formaPago;
+    @Column(name="diasPago")
     private String diasPago;
+    @Column(name="mesNoPago")
     private String mesNoPago;
+    @Column(name="leyMorosidad")
     private String leyMorosidad;
+    @Column(name="diasPlazoMax")
     private String diasPlazoMax;
+    @Column(name="condicionesPago")
     private String condicionesPago;
+    @Column(name="recargoFinanciero")
     private String recargoFinanciero;
+    @Column(name="seAplicaSobre")
     private String seAplicaSobre;
     
     

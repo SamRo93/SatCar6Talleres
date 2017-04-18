@@ -5,30 +5,49 @@
  */
 package ordenestrabajo.presentacion;
 
+import javax.persistence.*;
 import ordenestrabajo.dao_persistencia.*;
 
 /**
  *
  * @author Samuel
  */
+@Entity
+@Table(name="reparacion")
 public class ReparacionController {
       /**
      * Creates new form JFrameCalculadora
      */
+    @Id
+    @Column(name="numeroReparacion")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int numeroReparacion;
-    private String matricula;
-    private String marca;
-    private String modelo;
-    private int anio;
-    private String color;
-    private int numMotor;
-    private int KM;
-    private int numBastidor;
-    private int combustible;
-    private String fechaHora;
-    private int cliente;
-    private String obsInterna;
     
+    @Column(name="matricula") 
+    private String matricula;
+    @Column(name="marca")
+    private String marca;
+    @Column(name="modelo")
+    private String modelo;
+    @Column(name="anio")
+    private int anio;
+    @Column(name="color")
+    private String color;
+    @Column(name="numMotor")
+    private int numMotor;
+    @Column(name="KM")
+    private int KM;
+    @Column(name="numBastidor")
+    private int numBastidor;
+    @Column(name="combustible")
+    private int combustible;
+    @Column(name="fechaHora")
+    private String fechaHora;
+    @Column(name="cliente")
+    private int cliente;
+    @Column(name="obsInterna")
+    private String obsInterna;
+
     public void setNumeroReparacion(int numeroReparacion) {
         this.numeroReparacion = numeroReparacion;
     }
@@ -108,8 +127,6 @@ public class ReparacionController {
     public int getNumMotor() {
         return numMotor;
     }
-
-
 
     public int getKM() {
         return KM;

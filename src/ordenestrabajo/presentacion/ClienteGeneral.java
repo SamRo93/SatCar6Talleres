@@ -5,25 +5,47 @@
  */
 package ordenestrabajo.presentacion;
 
+import javax.persistence.*;
+
 /**
  *
  * @author Samuel
  */
+@Entity
+@Table(name="clientegeneral")
 
 public class ClienteGeneral {
+    
+   @Id
+   @Column(name="id")
+   @GeneratedValue(strategy=GenerationType.IDENTITY)
    private int id;
+   
+   @Column(name="razonSocial")
    private String razonSocial;
+   @Column(name="nombreComercial")
    private String nombreComercial;
+   @Column(name="NIF")
    private String NIF;
+   @Column(name="domicilio")
    private String domicilio;
+   @Column(name="poblacion")
    private String poblacion;
+   @Column(name="CP")
    private String CP;
+   @Column(name="provincia")
    private String provincia;
+   @Column(name="pais")
    private String pais;
+   @Column(name="tlf1")
    private String tlf1;
+   @Column(name="email")
    private String email;
+   @Column(name="paginaWeb")
    private String paginaWeb;
+   @Column(name="fechaAlta")
    private String fechaAlta;
+   @Column(name="observaciones")
    private String observaciones;
    
    ClienteGeneral(String razonSocial, String nombreComercial, String NIF, String domicilio, String poblacion, String CP, String provincia,

@@ -5,14 +5,24 @@
  */
 package ordenestrabajo.presentacion;
 
+import javax.persistence.*;
+
 /**
  *
  * @author Samuel
  */
+@Entity
+@Table(name="login")
 public class LoginController {
     
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
+    
+    @Column(name="usuario")
     private String usuario;
+    @Column(name="pass")
     private String pass;
 
     public int getId() {
