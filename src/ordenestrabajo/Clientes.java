@@ -6,10 +6,7 @@
 package ordenestrabajo;
 
 import java.io.Serializable;
-import ordenestrabajo.presentacion.ClienteBanco;
-import ordenestrabajo.presentacion.ClienteContaYFide;
-import ordenestrabajo.presentacion.ClienteDtosComerciales;
-import ordenestrabajo.presentacion.ClienteGeneral;
+import ordenestrabajo.presentacion.Cliente;
 /**
  *
  * @author Samuel
@@ -17,10 +14,7 @@ import ordenestrabajo.presentacion.ClienteGeneral;
 public class Clientes extends javax.swing.JFrame implements Serializable{
 
    
-    private ClienteGeneral cg = new ClienteGeneral();
-    private ClienteDtosComerciales cdc = new ClienteDtosComerciales();
-    private ClienteBanco cb = new ClienteBanco();
-    private ClienteContaYFide ccf = new ClienteContaYFide();
+    private Cliente cl = new Cliente();
 
     /**
      * Creates new form Clientes

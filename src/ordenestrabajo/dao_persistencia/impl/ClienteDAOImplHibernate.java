@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package ordenestrabajo.dao_persistencia.impl;
 
 /**
  *
- * @author Samuel
+ * @author samuel.romero
  */
-public class ClienteDtosComercialesControl {
+public class ClienteDAOImplHibernate {
     
 }

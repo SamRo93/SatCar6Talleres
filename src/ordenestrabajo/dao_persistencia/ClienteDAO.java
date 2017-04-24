@@ -5,14 +5,13 @@
  */
 package ordenestrabajo.dao_persistencia;
 
-import ordenestrabajo.presentacion.ClienteContaYFide;
-import persistencia.dao.impl.GenericDAOImplHibernate;
-import ordenestrabajo.dao_persistencia.ClienteContaYFideDAO;
+import ordenestrabajo.presentacion.Cliente;
 import persistencia.dao.GenericDAO;
+
 /**
  *
  * @author Samuel
  */
-public interface ClienteContaYFideDAO extends GenericDAO<ClienteContaYFide, Integer>{
+public interface ClienteDAO extends GenericDAO<Cliente, Integer>{
     
 }
