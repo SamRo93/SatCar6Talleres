@@ -20,8 +20,219 @@ import javax.persistence.*;
 @Table(name="cliente")
 
 public class Cliente implements Serializable{
+    
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+    
+   @Column(name="razonSocial")
+   private String razonSocial;
+   @Column(name="nombreComercial")
+   private String nombreComercial;
+   @Column(name="NIF")
+   private String NIF;
+   @Column(name="domicilio")
+   private String domicilio;
+   @Column(name="poblacion")
+   private String poblacion;
+   @Column(name="CP")
+   private String CP;
+   @Column(name="provincia")
+   private String provincia;
+   @Column(name="pais")
+   private String pais;
+   @Column(name="tlf1")
+   private String tlf1;
+   @Column(name="email")
+   private String email;
+   @Column(name="paginaWeb")
+   private String paginaWeb;
+   @Column(name="fechaAlta")
+   private String fechaAlta;
+   @Column(name="observaciones")
+   private String observaciones;
+    @Column(name="banco")
+    private String banco;
+    @Column(name="codigPais")
+    private String codigoPais;
+    @Column(name="titular")
+    private String titular;
+    @Column(name="codCuentaBancaria")
+    private String codCuentaBancaria;
+    @Column(name="codDevolucion")
+    private String codDevolucion;
+    @Column(name="codIntCuentaBancaria")
+    private String codIntCuentaBancaria;
+    @Column(name="IBAN")
+    private String IBAN;
+    @Column(name="adeudoSepa")
+    private String adeudoSepa;
+    @Column(name="tipoSecuencia")
+    private String tipoSecuencia;
+    @Column(name="referenciaMandato")
+    private String referenciaMandato;
+    @Column(name="fechaMandato")
+    private String fechaMandato;
+    @Column(name="bancoAcreedor")
+    private String bancoAcreedor;
+    @Column(name="cuentaCliente")
+    private String cuentaCliente;
+    @Column(name="cuentaVentas")
+    private String cuentaVentas;
+    @Column(name="cuentaRecargoFinanciero")
+    private String cuentaRecargoFinanciero;
+    @Column(name="cuentaDto")
+    private String cuentaDto;
+    @Column(name="cuentaDtoPP")
+    private String cuentaDtoPP;
+    @Column(name="cuentaPortes")
+    private String cuentaPortes;
+    @Column(name="NTarjeta")
+    private String NTarjeta;
+    @Column(name="fechaNacimiento")
+    private String fechaNacimiento;
+    @Column(name="puntos")
+    private String puntos;
+    @Column(name="fechaVtoPuntos")
+    private String fechaVtoPuntos;
+    @Column(name="eurosReales")
+    private String eurosReales;
+    @Column(name="fechaVtoEuros")
+    private String fechaVtoEuros;
+    @Column(name="tipoPVP")
+    private String tipoPVP;
+    @Column(name="dtoArticulo")
+    private String dtoArticulo;
+    @Column(name="dtoFijo")
+    private String dtoFijo;
+    @Column(name="dtoPP")
+    private String dtoPP;
+    @Column(name="riesgo")
+    private String riesgo;
+    @Column(name="tipoFactura")
+    private String tipoFactura;
+    @Column(name="formaPago")
+    private String formaPago;
+    @Column(name="diasPago")
+    private String diasPago;
+    @Column(name="mesNoPago")
+    private String mesNoPago;
+    @Column(name="leyMorosidad")
+    private String leyMorosidad;
+    @Column(name="diasPlazoMax")
+    private String diasPlazoMax;
+    @Column(name="condicionesPago")
+    private String condicionesPago;
+    @Column(name="recargoFinanciero")
+    private String recargoFinanciero;
+    @Column(name="seAplicaSobre")
+    private String seAplicaSobre;
 
-    public void setRazonSocial(String razonSocial) {
+    public int getId() {
+        return id;
+    }
+
+    public String getBanco() {
+        return banco;
+    }
+
+    public String getCodigoPais() {
+        return codigoPais;
+    }
+
+    public String getTitular() {
+        return titular;
+    }
+
+    public String getCodCuentaBancaria() {
+        return codCuentaBancaria;
+    }
+
+    public String getCodDevolucion() {
+        return codDevolucion;
+    }
+
+    public String getCodIntCuentaBancaria() {
+        return codIntCuentaBancaria;
+    }
+
+    public String getIBAN() {
+        return IBAN;
+    }
+
+    public String getAdeudoSepa() {
+        return adeudoSepa;
+    }
+
+    public String getTipoSecuencia() {
+        return tipoSecuencia;
+    }
+
+    public String getReferenciaMandato() {
+        return referenciaMandato;
+    }
+
+    public String getFechaMandato() {
+        return fechaMandato;
+    }
+
+    public String getBancoAcreedor() {
+        return bancoAcreedor;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
+    }
+
+    public void setCodigoPais(String codigoPais) {
+        this.codigoPais = codigoPais;
+    }
+
+    public void setTitular(String titular) {
+        this.titular = titular;
+    }
+
+    public void setCodCuentaBancaria(String codCuentaBancaria) {
+        this.codCuentaBancaria = codCuentaBancaria;
+    }
+
+    public void setCodDevolucion(String codDevolucion) {
+        this.codDevolucion = codDevolucion;
+    }
+
+    public void setCodIntCuentaBancaria(String codIntCuentaBancaria) {
+        this.codIntCuentaBancaria = codIntCuentaBancaria;
+    }
+
+    public void setIBAN(String IBAN) {
+        this.IBAN = IBAN;
+    }
+
+    public void setAdeudoSepa(String adeudoSepa) {
+        this.adeudoSepa = adeudoSepa;
+    }
+
+    public void setTipoSecuencia(String tipoSecuencia) {
+        this.tipoSecuencia = tipoSecuencia;
+    }
+
+    public void setReferenciaMandato(String referenciaMandato) {
+        this.referenciaMandato = referenciaMandato;
+    }
+
+    public void setFechaMandato(String fechaMandato) {
+        this.fechaMandato = fechaMandato;
+    }
+
+    public void setBancoAcreedor(String bancoAcreedor) {
+        this.bancoAcreedor = bancoAcreedor;
+    }    
+        public void setRazonSocial(String razonSocial) {
         this.razonSocial = razonSocial;
     }
 
@@ -332,215 +543,4 @@ public class Cliente implements Serializable{
     public String getSeAplicaSobre() {
         return seAplicaSobre;
     }
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
-    
-   @Column(name="razonSocial")
-   private String razonSocial;
-   @Column(name="nombreComercial")
-   private String nombreComercial;
-   @Column(name="NIF")
-   private String NIF;
-   @Column(name="domicilio")
-   private String domicilio;
-   @Column(name="poblacion")
-   private String poblacion;
-   @Column(name="CP")
-   private String CP;
-   @Column(name="provincia")
-   private String provincia;
-   @Column(name="pais")
-   private String pais;
-   @Column(name="tlf1")
-   private String tlf1;
-   @Column(name="email")
-   private String email;
-   @Column(name="paginaWeb")
-   private String paginaWeb;
-   @Column(name="fechaAlta")
-   private String fechaAlta;
-   @Column(name="observaciones")
-   private String observaciones;
-    @Column(name="banco")
-    private String banco;
-    @Column(name="codigPais")
-    private String codigoPais;
-    @Column(name="titular")
-    private String titular;
-    @Column(name="codCuentaBancaria")
-    private String codCuentaBancaria;
-    @Column(name="codDevolucion")
-    private String codDevolucion;
-    @Column(name="codIntCuentaBancaria")
-    private String codIntCuentaBancaria;
-    @Column(name="IBAN")
-    private String IBAN;
-    @Column(name="adeudoSepa")
-    private String adeudoSepa;
-    @Column(name="tipoSecuencia")
-    private String tipoSecuencia;
-    @Column(name="referenciaMandato")
-    private String referenciaMandato;
-    @Column(name="fechaMandato")
-    private String fechaMandato;
-    @Column(name="bancoAcreedor")
-    private String bancoAcreedor;
-    @Column(name="cuentaCliente")
-    private String cuentaCliente;
-    @Column(name="cuentaVentas")
-    private String cuentaVentas;
-    @Column(name="cuentaRecargoFinanciero")
-    private String cuentaRecargoFinanciero;
-    @Column(name="cuentaDto")
-    private String cuentaDto;
-    @Column(name="cuentaDtoPP")
-    private String cuentaDtoPP;
-    @Column(name="cuentaPortes")
-    private String cuentaPortes;
-    @Column(name="NTarjeta")
-    private String NTarjeta;
-    @Column(name="fechaNacimiento")
-    private String fechaNacimiento;
-    @Column(name="puntos")
-    private String puntos;
-    @Column(name="fechaVtoPuntos")
-    private String fechaVtoPuntos;
-    @Column(name="eurosReales")
-    private String eurosReales;
-    @Column(name="fechaVtoEuros")
-    private String fechaVtoEuros;
-    @Column(name="tipoPVP")
-    private String tipoPVP;
-    @Column(name="dtoArticulo")
-    private String dtoArticulo;
-    @Column(name="dtoFijo")
-    private String dtoFijo;
-    @Column(name="dtoPP")
-    private String dtoPP;
-    @Column(name="riesgo")
-    private String riesgo;
-    @Column(name="tipoFactura")
-    private String tipoFactura;
-    @Column(name="formaPago")
-    private String formaPago;
-    @Column(name="diasPago")
-    private String diasPago;
-    @Column(name="mesNoPago")
-    private String mesNoPago;
-    @Column(name="leyMorosidad")
-    private String leyMorosidad;
-    @Column(name="diasPlazoMax")
-    private String diasPlazoMax;
-    @Column(name="condicionesPago")
-    private String condicionesPago;
-    @Column(name="recargoFinanciero")
-    private String recargoFinanciero;
-    @Column(name="seAplicaSobre")
-    private String seAplicaSobre;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getBanco() {
-        return banco;
-    }
-
-    public String getCodigoPais() {
-        return codigoPais;
-    }
-
-    public String getTitular() {
-        return titular;
-    }
-
-    public String getCodCuentaBancaria() {
-        return codCuentaBancaria;
-    }
-
-    public String getCodDevolucion() {
-        return codDevolucion;
-    }
-
-    public String getCodIntCuentaBancaria() {
-        return codIntCuentaBancaria;
-    }
-
-    public String getIBAN() {
-        return IBAN;
-    }
-
-    public String getAdeudoSepa() {
-        return adeudoSepa;
-    }
-
-    public String getTipoSecuencia() {
-        return tipoSecuencia;
-    }
-
-    public String getReferenciaMandato() {
-        return referenciaMandato;
-    }
-
-    public String getFechaMandato() {
-        return fechaMandato;
-    }
-
-    public String getBancoAcreedor() {
-        return bancoAcreedor;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setBanco(String banco) {
-        this.banco = banco;
-    }
-
-    public void setCodigoPais(String codigoPais) {
-        this.codigoPais = codigoPais;
-    }
-
-    public void setTitular(String titular) {
-        this.titular = titular;
-    }
-
-    public void setCodCuentaBancaria(String codCuentaBancaria) {
-        this.codCuentaBancaria = codCuentaBancaria;
-    }
-
-    public void setCodDevolucion(String codDevolucion) {
-        this.codDevolucion = codDevolucion;
-    }
-
-    public void setCodIntCuentaBancaria(String codIntCuentaBancaria) {
-        this.codIntCuentaBancaria = codIntCuentaBancaria;
-    }
-
-    public void setIBAN(String IBAN) {
-        this.IBAN = IBAN;
-    }
-
-    public void setAdeudoSepa(String adeudoSepa) {
-        this.adeudoSepa = adeudoSepa;
-    }
-
-    public void setTipoSecuencia(String tipoSecuencia) {
-        this.tipoSecuencia = tipoSecuencia;
-    }
-
-    public void setReferenciaMandato(String referenciaMandato) {
-        this.referenciaMandato = referenciaMandato;
-    }
-
-    public void setFechaMandato(String fechaMandato) {
-        this.fechaMandato = fechaMandato;
-    }
-
-    public void setBancoAcreedor(String bancoAcreedor) {
-        this.bancoAcreedor = bancoAcreedor;
-    }    
 }
