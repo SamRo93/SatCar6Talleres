@@ -1,1 +1,22 @@
-hibernate.cfg.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost/satcar6</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">Hola1234$</property>
+    <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+    <property name="hibernate.show_sql">true</property>
+
+    <mapping class="ordenestrabajo.presentacion.Cliente"/>
+	<mapping class="ordenestrabajo.presentacion.LoginController"/>
+	<mapping class="ordenestrabajo.presentacion.ParteArribaCocheController"/>
+	<mapping class="ordenestrabajo.presentacion.ParteDelanteraCocheController"/>
+	<mapping class="ordenestrabajo.presentacion.ParteDerCocheController"/>
+	<mapping class="ordenestrabajo.presentacion.ParteIzqCocheController"/>
+	<mapping class="ordenestrabajo.presentacion.ParteTraseraCocheController"/>
+    <mapping class="ordenestrabajo.presentacion.ReparacionController"/>
+
+  </session-factory>
+</hibernate-configuration>

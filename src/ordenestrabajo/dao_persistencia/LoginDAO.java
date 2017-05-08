@@ -6,6 +6,7 @@
 package ordenestrabajo.dao_persistencia;
 
 import ordenestrabajo.presentacion.LoginController;
+import persistencia.dao.BussinessException;
 import persistencia.dao.GenericDAO;
 
 /**
@@ -13,5 +14,5 @@ import persistencia.dao.GenericDAO;
  * @author Samuel
  */
 public interface LoginDAO extends GenericDAO<LoginController, Integer>{
-    
+    boolean findUser(String user, String pass) throws BussinessException;
 }

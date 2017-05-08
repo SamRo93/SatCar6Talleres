@@ -14,17 +14,5 @@
  * @author Samuel
  */
 public class ParteIzqCocheControl {
-   // ParteIzqCocheDAO pIZCD;
     
-    //public ParteIzqCocheControl(){
-      //  pIZCD=new ParteIzqCocheDAOImplHibernate();
-    }
-   // public void guardar(ParteIzqCocheController pIZC) throws BussinessException{
-     //   pIZCD.saveOrUpdate(pIZC);
-    //}
-    
-    //public ParteIzqCocheController mostrar(ID id){
-        
-  //  }
-            
-//}
+}
