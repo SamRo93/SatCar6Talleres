@@ -14,11 +14,11 @@ import ordenestrabajo.dao_persistencia.*;
  */
 @Entity
 @Table(name="partedercoche")
-public class ParteDerCocheController {
+public class ParteDerCocheEntity {
     
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     
     @Column(name="obsParteDer")

@@ -19,11 +19,11 @@ import javax.persistence.*;
 @Entity
 @Table(name="cliente")
 
-public class Cliente implements Serializable{
+public class ClienteEntity implements Serializable{
     
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
    @Column(name="razonSocial")
@@ -128,6 +128,72 @@ public class Cliente implements Serializable{
     private String recargoFinanciero;
     @Column(name="seAplicaSobre")
     private String seAplicaSobre;
+    @Column(name="Banco_Domi")
+    private String domicilioBanco;
+    @Column(name="Banco_Pobla")
+    private String poblacionBanco;
+    @Column(name="Banco_CP")
+    private String cpBanco;
+    @Column(name="Banco_Prov")
+    private String provinciaBanco;
+    @Column(name="Banco_Pais")
+    private String paisBanco;
+    @Column(name="Banco_Codigo")
+    private String codigoBanco;
+    @Column(name="Referencia_Interna")
+    private String referInter;
+
+    public void setReferInter(String referInter) {
+        this.referInter = referInter;
+    }
+
+    public String getReferInter() {
+        return referInter;
+    }
+
+    public void setDomicilioBanco(String domicilioBanco) {
+        this.domicilioBanco = domicilioBanco;
+    }
+
+    public void setPoblacionBanco(String poblacionBanco) {
+        this.poblacionBanco = poblacionBanco;
+    }
+
+    public void setCpBanco(String cpBanco) {
+        this.cpBanco = cpBanco;
+    }
+
+    public void setProvinciaBanco(String provinciaBanco) {
+        this.provinciaBanco = provinciaBanco;
+    }
+
+    public void setPaisBanco(String paisBanco) {
+        this.paisBanco = paisBanco;
+    }
+
+    public void setCodigoBanco(String codigoBanco) {
+        this.codigoBanco = codigoBanco;
+    }
+
+    public String getPoblacionBanco() {
+        return poblacionBanco;
+    }
+
+    public String getCpBanco() {
+        return cpBanco;
+    }
+
+    public String getProvinciaBanco() {
+        return provinciaBanco;
+    }
+
+    public String getPaisBanco() {
+        return paisBanco;
+    }
+
+    public String getCodigoBanco() {
+        return codigoBanco;
+    }
 
     public int getId() {
         return id;
@@ -542,5 +608,9 @@ public class Cliente implements Serializable{
 
     public String getSeAplicaSobre() {
         return seAplicaSobre;
+    }
+
+    public String getDomicilioBanco() {
+        return domicilioBanco;
     }
 }

@@ -26,7 +26,6 @@ public class HibernateUtil {
             configuration.configure();
             configuration.setProperty("hibernate.current_session_context_class", "thread");
             sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-            
         }
     }
 
@@ -55,4 +54,16 @@ public class HibernateUtil {
             sessionFactory.close();
         }
     }
+
+//    public static class buildSessionFactory {
+//
+//        public buildSessionFactory() {
+//            if (sessionFactory == null) {
+//            Configuration configuration = new Configuration();
+//            configuration.configure();
+//            configuration.setProperty("hibernate.current_session_context_class", "thread");
+//            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();   
+//            }   
+//        }
+//    }
 }

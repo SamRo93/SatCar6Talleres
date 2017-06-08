@@ -43,7 +43,7 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
     }
 
     @Override
-    public void delete(T entity, ID id) throws BussinessException {
+    public void delete(T entity) throws BussinessException {
         Session session = sessionFactory.getCurrentSession();
         try{
             session.beginTransaction();

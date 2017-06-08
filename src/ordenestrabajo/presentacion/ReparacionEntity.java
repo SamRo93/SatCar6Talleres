@@ -14,13 +14,13 @@ import ordenestrabajo.dao_persistencia.*;
  */
 @Entity
 @Table(name="reparacion")
-public class ReparacionController {
+public class ReparacionEntity {
       /**
      * Creates new form JFrameCalculadora
      */
     @Id
     @Column(name="numeroReparacion")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int numeroReparacion;
     
     @Column(name="matricula") 

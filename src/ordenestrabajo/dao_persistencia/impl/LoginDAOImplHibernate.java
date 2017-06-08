@@ -6,8 +6,10 @@
 package ordenestrabajo.dao_persistencia.impl;
 
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import ordenestrabajo.dao_persistencia.LoginDAO;
-import ordenestrabajo.presentacion.LoginController;
+import ordenestrabajo.presentacion.LoginEntity;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import persistencia.dao.BussinessException;
@@ -17,14 +19,17 @@ import persistencia.dao.impl.GenericDAOImplHibernate;
  *
  * @author Samuel
  */
-public class LoginDAOImplHibernate extends GenericDAOImplHibernate<LoginController, Integer> implements LoginDAO{
+public class LoginDAOImplHibernate extends GenericDAOImplHibernate<LoginEntity, Integer> implements LoginDAO{
+    
+    @PersistenceContext
+    protected EntityManager em;
 
     @Override
     public boolean findUser(String user, String pass) throws BussinessException {
         try{
             Session session = sessionFactory.getCurrentSession();
             Query query = session.createQuery("SELECT login From LoginController login where usuario like '"+user+"' and pass like '"+pass+"'");
-            List<LoginController> lc = query.list();
+            List<LoginEntity> lc = query.list();
             if(lc.size()!= 0){
                 return true;
             }else return false;            

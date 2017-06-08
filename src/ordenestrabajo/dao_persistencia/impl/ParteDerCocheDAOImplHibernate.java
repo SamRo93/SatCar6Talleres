@@ -5,15 +5,18 @@
  */
 package ordenestrabajo.dao_persistencia.impl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import ordenestrabajo.dao_persistencia.*;
-import ordenestrabajo.presentacion.ParteDerCocheController;
+import ordenestrabajo.presentacion.ParteDerCocheEntity;
 import persistencia.dao.impl.GenericDAOImplHibernate;
 
 /**
  *
  * @author Samuel
  */
-public class ParteDerCocheDAOImplHibernate extends GenericDAOImplHibernate<ParteDerCocheController, Integer> implements ParteDerCocheDAO{
-    
+public class ParteDerCocheDAOImplHibernate extends GenericDAOImplHibernate<ParteDerCocheEntity, Integer> implements ParteDerCocheDAO{
+    @PersistenceContext
+    protected EntityManager em;
 }
 

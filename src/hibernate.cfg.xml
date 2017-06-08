@@ -8,15 +8,16 @@
     <property name="connection.password">Hola1234$</property>
     <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hibernate.show_sql">true</property>
+    
+    <mapping class="ordenestrabajo.presentacion.ClienteEntity" />
+    <mapping class="ordenestrabajo.presentacion.LoginEntity" />
+    <mapping class="ordenestrabajo.presentacion.ParteArribaCocheEntity" />
+    <mapping class="ordenestrabajo.presentacion.ParteDelanteraCocheEntity" />
+    <mapping class="ordenestrabajo.presentacion.ParteDerCocheEntity" />
+    <mapping class="ordenestrabajo.presentacion.ParteIzqCocheEntity" />
+    <mapping class="ordenestrabajo.presentacion.ParteTraseraCocheEntity" />
+    <mapping class="ordenestrabajo.presentacion.ReparacionEntity" />
 
-    <mapping class="ordenestrabajo.presentacion.Cliente"/>
-	<mapping class="ordenestrabajo.presentacion.LoginController"/>
-	<mapping class="ordenestrabajo.presentacion.ParteArribaCocheController"/>
-	<mapping class="ordenestrabajo.presentacion.ParteDelanteraCocheController"/>
-	<mapping class="ordenestrabajo.presentacion.ParteDerCocheController"/>
-	<mapping class="ordenestrabajo.presentacion.ParteIzqCocheController"/>
-	<mapping class="ordenestrabajo.presentacion.ParteTraseraCocheController"/>
-    <mapping class="ordenestrabajo.presentacion.ReparacionController"/>
 
   </session-factory>
 </hibernate-configuration>

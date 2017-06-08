@@ -6,7 +6,8 @@
 package ordenestrabajo.dao_persistencia;
 
 import java.util.*;
-import ordenestrabajo.presentacion.Cliente;
+import ordenestrabajo.presentacion.ClienteEntity;
+import ordenestrabajo.presentacion.ClienteMostrarEntity;
 import persistencia.dao.BussinessException;
 import persistencia.dao.GenericDAO;
 
@@ -14,9 +15,6 @@ import persistencia.dao.GenericDAO;
  *
  * @author Samuel
  */
-public interface ClienteDAO extends GenericDAO<Cliente, Integer>{
-     List<Cliente> findByNClient(int id) throws BussinessException;
-     List<Cliente> findByName(String name) throws BussinessException;
-     List<Cliente> findBySocialReason(String socialReason) throws BussinessException;
-     List<Cliente> findByNif(String nif) throws BussinessException;
+public interface ClienteDAO extends GenericDAO<ClienteEntity, Integer>{
+     List<ClienteMostrarEntity> findClient(String caso, Object dato) throws BussinessException;
 }

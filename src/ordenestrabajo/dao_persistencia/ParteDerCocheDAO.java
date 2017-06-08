@@ -5,12 +5,12 @@
  */
 package ordenestrabajo.dao_persistencia;
 
-import ordenestrabajo.presentacion.ParteDerCocheController;
+import ordenestrabajo.presentacion.ParteDerCocheEntity;
 import persistencia.dao.GenericDAO;
 /**
  *
  * @author Samuel
  */
-public interface ParteDerCocheDAO extends GenericDAO<ParteDerCocheController, Integer>{
+public interface ParteDerCocheDAO extends GenericDAO<ParteDerCocheEntity, Integer>{
     
 }

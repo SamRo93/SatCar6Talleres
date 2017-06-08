@@ -133,11 +133,11 @@ public class Login extends javax.swing.JFrame {
         String user = new String(jTextField1.getText());
         String pass = new String(jPasswordField1.getPassword());
         try{
-        HibernateUtil.buildSessionFactory();
-        HibernateUtil.openSessionAndBindToThread();
-        
-        
-        
+            if(user.compareTo("Samuel")==0 && pass.compareTo("Hola1234$")==0){
+            VistaPrincipal vp = new VistaPrincipal();
+            vp.setVisible(true);
+            this.dispose();
+            }
         }catch(Exception e){
             
         }
