@@ -5,17 +5,36 @@
  */
 package ordenestrabajo.dao_persistencia.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import ordenestrabajo.ParteDelanteraCoche;
 import ordenestrabajo.dao_persistencia.*;
-import ordenestrabajo.presentacion.ParteDelanteraCocheEntity;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import persistencia.dao.impl.GenericDAOImplHibernate;
+import satcar6.entity.Parteabajocoche;
+import satcar6.util.HibernateUtil;
 
 /**
  *
  * @author Samuel
  */
-public class ParteDelanteraCocheDAOImplHibernate extends GenericDAOImplHibernate<ParteDelanteraCocheEntity, Integer> implements ParteDelanteraCocheDAO{
-    @PersistenceContext
-    protected EntityManager em;
+public class ParteDelanteraCocheDAOImplHibernate extends GenericDAOImplHibernate<Parteabajocoche, Integer> implements ParteDelanteraCocheDAO{
+    
+
+    @Override
+    public Parteabajocoche findById(int id) throws Exception {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery("Select doc From Clientemostrar doc where doc.id = '"+String.valueOf(id)+"'");
+        session.getTransaction().commit();
+        return (Parteabajocoche) q.uniqueResult();
+    }
+
+    @Override
+    public Parteabajocoche findByIdRepa(int id) throws Exception {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query q = session.createQuery("Select doc From Clientemostrar doc where doc.idCliente = '"+String.valueOf(id)+"'");
+        session.getTransaction().commit();
+        return (Parteabajocoche) q.uniqueResult();
+    }
 }

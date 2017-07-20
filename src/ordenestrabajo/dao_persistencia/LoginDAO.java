@@ -5,14 +5,14 @@
  */
 package ordenestrabajo.dao_persistencia;
 
-import ordenestrabajo.presentacion.LoginEntity;
 import persistencia.dao.BussinessException;
 import persistencia.dao.GenericDAO;
+import satcar6.entity.Login;
 
 /**
  *
  * @author Samuel
  */
-public interface LoginDAO extends GenericDAO<LoginEntity, Integer>{
+public interface LoginDAO extends GenericDAO<Login, Integer>{
     boolean findUser(String user, String pass) throws BussinessException;
 }

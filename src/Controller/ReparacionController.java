@@ -3,10 +3,15 @@ package Controller;
 
 import java.util.Date;
 import java.util.List;
+import ordenestrabajo.dao_persistencia.ClienteDAO;
+import ordenestrabajo.dao_persistencia.OrdenmostrarDAO;
 import ordenestrabajo.dao_persistencia.ReparacionDAO;
+import ordenestrabajo.dao_persistencia.impl.ClienteDAOImplHibernate;
+import ordenestrabajo.dao_persistencia.impl.OrdenmostrarDAOImplHibernate;
 import ordenestrabajo.dao_persistencia.impl.ReparacionDAOImplHibernate;
-import ordenestrabajo.presentacion.ClienteEntity;
-import ordenestrabajo.presentacion.ReparacionEntity;
+import satcar6.entity.Cliente;
+import satcar6.entity.Ordenmostrar;
+import satcar6.entity.ReparacionEntity;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,16 +25,28 @@ import ordenestrabajo.presentacion.ReparacionEntity;
  */
 public class ReparacionController {
     ReparacionDAO reparacionDAO;
+    OrdenmostrarDAO ordenMostrarDAO; 
+    ClienteDAO clientDAO;
     
     public ReparacionController(){
         reparacionDAO = new ReparacionDAOImplHibernate();
+        ordenMostrarDAO = new OrdenmostrarDAOImplHibernate();
+        clientDAO = new ClienteDAOImplHibernate();
     }
     
     public void guardar(ReparacionEntity reparacion) throws Exception{
         reparacionDAO.saveOrUpdate(reparacion);
     }
     
-    public List<ReparacionEntity> buscar(ClienteEntity client) throws Exception{
+    public void guardar(Ordenmostrar reparacion) throws Exception{
+        ordenMostrarDAO.saveOrUpdate(reparacion);
+    }
+    
+    public Cliente buscarCliente(int id) throws Exception{
+        return clientDAO.findClientById(id);
+    }
+    
+    public List<ReparacionEntity> buscar(Cliente client) throws Exception{
         return reparacionDAO.findByClient(client.getId());
     }
     
@@ -37,7 +54,7 @@ public class ReparacionController {
         return reparacionDAO.findByFecha(fechaini, fechafin);
     }
     
-    public List<ReparacionEntity> buscar(int Rep) throws Exception{
+    public ReparacionEntity buscar(int Rep) throws Exception{
         return reparacionDAO.findById(Rep);
     }
     

@@ -1,9 +1,11 @@
 package Controller;
 
 
+import ordenestrabajo.ParteArribaCoche;
+import ordenestrabajo.ParteTraseraCoche;
 import ordenestrabajo.dao_persistencia.ParteTraseraCocheDAO;
 import ordenestrabajo.dao_persistencia.impl.ParteTraseraCocheDAOImplHibernate;
-import ordenestrabajo.presentacion.ParteTraseraCocheEntity;
+import satcar6.entity.Partetraseracoche;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,11 +25,20 @@ public class ParteTraseraCocheController {
         traseraDAO = new ParteTraseraCocheDAOImplHibernate();
     }    
     
-    public void guardar(ParteTraseraCocheEntity parteTrasera) throws Exception{
+    public void guardar(Partetraseracoche parteTrasera) throws Exception{
         traseraDAO.saveOrUpdate(parteTrasera);
     }
     
-    public void borrar(ParteTraseraCocheEntity parteTrasera) throws Exception{
+    public void borrar(Partetraseracoche parteTrasera) throws Exception{
         traseraDAO.delete(parteTrasera);
     }
+    
+    public Partetraseracoche findById(int id) throws Exception{
+        return traseraDAO.findById(id);
+    }
+    
+    public Partetraseracoche findByIdReparacion(int id) throws Exception{
+        return traseraDAO.findByIdRepa(id);
+    }
+            
 }

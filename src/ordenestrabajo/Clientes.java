@@ -5,22 +5,32 @@
  */
 package ordenestrabajo;
 
-import com.fasterxml.classmate.AnnotationConfiguration;
+import Controller.ClienteController;
+import Controller.ClientemostrarController;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import ordenestrabajo.presentacion.ClienteEntity;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import persistencia.hibernate.HibernateUtil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import satcar6.entity.Cliente;
+import satcar6.entity.Clientemostrar;
+
 /**
  *
  * @author Samuel
  */
-public class Clientes extends javax.swing.JFrame implements Serializable{
+public class Clientes extends javax.swing.JFrame implements Serializable {
 
-   
-    private ClienteEntity cl = new ClienteEntity();
+    private ClienteController cc = new ClienteController();
+    
+    private ClientemostrarController cmc = new ClientemostrarController();
+
+    private Cliente cl = new Cliente();
+    
+    private long result = 1;
 
     /**
      * Creates new form Clientes
@@ -29,7 +39,8 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         initComponents();
         setLocationRelativeTo(null);
     }
-    public Clientes(ClienteEntity cliente){
+
+    public Clientes(Cliente cliente) {
         this.cl = cliente;
         initComponents();
         setLocationRelativeTo(null);
@@ -55,7 +66,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jPanel2 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -65,7 +75,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTextFieldId = new javax.swing.JTextField();
-        jTextFieldCIden = new javax.swing.JTextField();
         jTextFieldRaSo = new javax.swing.JTextField();
         jTextFieldNoCo = new javax.swing.JTextField();
         jTextFieldNIF = new javax.swing.JTextField();
@@ -76,19 +85,10 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jTextFieldPais = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jTextFieldFax1 = new javax.swing.JTextField();
         jTextFieldTelf1 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jTextFieldTelf2 = new javax.swing.JTextField();
-        jTextFieldFax2 = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jTextFieldEmail1 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        jTextFieldEmail2 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
+        jTextFieldEmail1 = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jTextFieldPagWeb = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
@@ -183,9 +183,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jTextFieldRecFinan = new javax.swing.JTextField();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel53 = new javax.swing.JLabel();
-        jTextFieldAviso = new javax.swing.JTextField();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
@@ -263,12 +260,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jTextFieldCuentaDtoPP = new javax.swing.JTextField();
         jLabel83 = new javax.swing.JLabel();
         jTextFieldCuentaPortes = new javax.swing.JTextField();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel31 = new javax.swing.JPanel();
         jLabel84 = new javax.swing.JLabel();
@@ -299,6 +290,11 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Tick.png"))); // NOI18N
         jButton4.setText("Aceptar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cancelar.png"))); // NOI18N
         jButton3.setText("Cancelar");
@@ -381,9 +377,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Código:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("C.Identificación:");
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Razón Social:");
 
@@ -412,13 +405,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         jTextFieldId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldIdActionPerformed(evt);
-            }
-        });
-
-        jTextFieldCIden.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextFieldCIden.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldCIdenActionPerformed(evt);
             }
         });
 
@@ -462,7 +448,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -477,7 +462,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                         .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextFieldCIden, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldRaSo, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
                     .addComponent(jTextFieldNoCo)
                     .addComponent(jTextFieldNIF, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,11 +480,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                         .addComponent(jLabel1)
                         .addComponent(jTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextFieldCIden, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextFieldRaSo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -539,84 +519,15 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
 
         jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel12.setText("Fax 1:");
-
-        jTextFieldFax1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextFieldFax1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldFax1ActionPerformed(evt);
-            }
-        });
-
         jTextFieldTelf1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setText("Teléfono 1:");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel13.setText("Teléfono 2:");
-
-        jTextFieldTelf2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jTextFieldFax2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Fax 1:");
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextFieldFax1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addComponent(jTextFieldTelf1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldTelf2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFax2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldTelf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldTelf2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextFieldFax2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextFieldFax1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jTextFieldEmail1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel16.setText("Email 2:");
-
-        jTextFieldEmail2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Email 1:");
+
+        jTextFieldEmail1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setText("Página Web:");
@@ -628,39 +539,44 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
             }
         });
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldEmail2, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldPagWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldTelf1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(69, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldPagWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldTelf1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldEmail2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldPagWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldPagWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -715,8 +631,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -729,10 +644,8 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("General", jPanel2);
@@ -1488,38 +1401,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                     .addGap(16, 16, 16)))
         );
 
-        jPanel18.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel53.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel53.setText("Aviso");
-
-        jTextFieldAviso.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldAvisoActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel53)
-                .addGap(18, 18, 18)
-                .addComponent(jTextFieldAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -1533,8 +1414,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(67, 67, 67))
         );
         jPanel3Layout.setVerticalGroup(
@@ -1544,7 +1424,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(jPanel23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1552,8 +1432,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(19, 19, 19))
         );
 
@@ -2119,7 +1998,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Datos Bancarios", jPanel20);
@@ -2214,36 +2093,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
             }
         });
 
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jButton11.setBorderPainted(false);
-        jButton11.setContentAreaFilled(false);
-        jButton11.setPreferredSize(new java.awt.Dimension(20, 20));
-
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jButton12.setBorderPainted(false);
-        jButton12.setContentAreaFilled(false);
-        jButton12.setPreferredSize(new java.awt.Dimension(20, 20));
-
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jButton13.setBorderPainted(false);
-        jButton13.setContentAreaFilled(false);
-        jButton13.setPreferredSize(new java.awt.Dimension(20, 20));
-
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jButton14.setBorderPainted(false);
-        jButton14.setContentAreaFilled(false);
-        jButton14.setPreferredSize(new java.awt.Dimension(20, 20));
-
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jButton15.setBorderPainted(false);
-        jButton15.setContentAreaFilled(false);
-        jButton15.setPreferredSize(new java.awt.Dimension(20, 20));
-
-        jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Buscar.png"))); // NOI18N
-        jButton16.setBorderPainted(false);
-        jButton16.setContentAreaFilled(false);
-        jButton16.setPreferredSize(new java.awt.Dimension(20, 20));
-
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
         jPanel30Layout.setHorizontalGroup(
@@ -2254,37 +2103,26 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                     .addGroup(jPanel30Layout.createSequentialGroup()
                         .addComponent(jLabel78, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldCuentaCli, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel30Layout.createSequentialGroup()
+                        .addComponent(jTextFieldCuentaCli, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel30Layout.createSequentialGroup()
                         .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel30Layout.createSequentialGroup()
-                                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel80)
-                                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel83, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel82, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel81))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextFieldCuentaPortes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldCuentaDtoPP, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldCuentaDto, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel30Layout.createSequentialGroup()
-                                .addComponent(jLabel79)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldCuentaReFi, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldCuentaVen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel80)
+                            .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel83, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel82, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel81))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldCuentaPortes, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldCuentaDtoPP, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldCuentaDto, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel30Layout.createSequentialGroup()
+                        .addComponent(jLabel79)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                         .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(25, 25, 25))
+                            .addComponent(jTextFieldCuentaReFi, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldCuentaVen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(61, 61, 61))
         );
         jPanel30Layout.setVerticalGroup(
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2292,42 +2130,27 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addGap(20, 20, 20)
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel78, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextFieldCuentaCli, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextFieldCuentaCli, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldCuentaVen, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldCuentaReFi, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldCuentaDto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldCuentaDtoPP, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
-                                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextFieldCuentaVen, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextFieldCuentaReFi, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextFieldCuentaDto, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldCuentaDtoPP, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel30Layout.createSequentialGroup()
-                                .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1))))
-                    .addComponent(jButton15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)))
                 .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jTextFieldCuentaPortes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldCuentaPortes, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel83, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
@@ -2367,7 +2190,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
                 .addComponent(jPanel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Contabilidad", jPanel12);
@@ -2601,7 +2424,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
@@ -2614,18 +2437,52 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        jTextFieldId.setText("1");
-        
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        try {
+            jButton2.setEnabled(true);
+            jButton5.setEnabled(false);
+            long i = cmc.verDBResult();
+            result = i + 1;
+            jTextFieldId.setText("" + result);
+            Date fecha = new Date();
+            String fecha2 = fecha.toString();
+            String[] fechas = fecha2.split(" ");
+            String dia =  Integer.toString(fecha.getDate());
+            String mes = Integer.toString(fecha.getMonth()+1);
+            String annio = fechas[fechas.length-1];
+            jTextFieldFechAlta.setText(dia+"-"+ mes + "-" + annio);
+            jTextField8FechAlta2.setText(dia+"-"+ mes + "-" + annio);
+            jTextFieldId2.setText("" + result);
+            jTextFieldId3.setText("" + result);
+            jTextFieldId4.setText("" + result);
+            jTextFieldId5.setText("" + result);
+        } catch (Exception ex) {
+            System.err.println("Erro: " + ex);
+        }
 
+
+    }//GEN-LAST:event_jButton2ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String id = jTextFieldId.getText();
+        Cliente clie = new Cliente();
+        Clientemostrar cmcc = new Clientemostrar();
+        try {
+            int ide =Integer.parseInt(id);
+            cmcc = cmc.buscarPorId(ide);
+            clie = cc.buscarPorId(ide);
+            
+             cc.delete(clie);
+             cmc.delete(cmcc);
+        }catch (Exception ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        jButton2.setEnabled(false);
+        jButton5.setEnabled(true);
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextFieldNombrePersonaBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombrePersonaBancoActionPerformed
@@ -2663,10 +2520,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private void jTextFieldCBEntiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCBEntiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCBEntiActionPerformed
-
-    private void jTextFieldAvisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAvisoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldAvisoActionPerformed
 
     private void jTextFieldRecFinanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRecFinanActionPerformed
         // TODO add your handling code here:
@@ -2783,26 +2636,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private void jTextFieldId2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldId2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldId2ActionPerformed
-
-    private void jTextFieldPagWebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPagWebActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPagWebActionPerformed
-
-    private void jTextFieldFax1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFax1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldFax1ActionPerformed
-
-    private void jTextFieldPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPaisActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPaisActionPerformed
-
-    private void jTextFieldCIdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCIdenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldCIdenActionPerformed
-
-    private void jTextFieldIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldIdActionPerformed
 
     private void jTextFieldId3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldId3ActionPerformed
         // TODO add your handling code here:
@@ -2936,11 +2769,275 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldFechVtoEurosActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(jButton5.isEnabled()){
+        Cliente cliente = new Cliente();
+        Clientemostrar cm = new Clientemostrar();
+        //General
+        cliente.setId(Integer.parseInt(jTextFieldId.getText()));
+        cliente.setRazonSocial(jTextFieldRaSo.getText());
+        cliente.setNombreComercial(jTextFieldNoCo.getText());
+        cliente.setNif(jTextFieldNIF.getText());
+        cliente.setDomicilio(jTextFieldDomi.getText());
+        cliente.setPoblacion(jTextFieldPobla.getText());
+        cliente.setCp(jTextFieldCP.getText());	
+        cliente.setProvincia(jTextFieldPro.getText());
+        cliente.setPais(jTextFieldPais.getText());
+        cliente.setTlf1(jTextFieldTelf1.getText());
+        cliente.setEmail(jTextFieldEmail1.getText());
+        cliente.setPaginaWeb(jTextFieldPagWeb.getText());
+        cliente.setFechaAlta(new Date());
+        //DatosComerciales
+        cliente.setTipoPvp(jTextFieldPVP.getText());
+        cliente.setDtoArticulo(jTextFieldDtoArt.getText());
+        cliente.setFormaPago(jTextFieldFpago.getText());
+        cliente.setDtoFijo(jTextFieldDtoFijo.getText());
+        cliente.setDtoPp(jTextFieldDtoPP.getText());
+        cliente.setRiesgo(jTextFieldRiesgo.getText());
+        cliente.setTipoFactura(jTextFieldTFac.getText());
+        //Mirarpasabercomohacerlo
+        if(jTextFieldDiasPago1.getText()==null){
+            if(jTextFieldDiasPago2.getText()==null){
+                if(jTextFieldDiasPago3.getText()==null){
+                    cliente.setDiasPago("-");
+                }else cliente.setDiasPago(jTextFieldDiasPago1.getText());
+           }else cliente.setDiasPago(jTextFieldDiasPago2.getText());
+        }else cliente.setDiasPago(jTextFieldDiasPago3.getText());
+        //////////////////////////////////
+        cliente.setDiasPlazoMax(jTextFieldDiasPlazoMax.getText());
+        cliente.setMesNoPago(jTextFieldMesNoPago.getText());
+        //Mirarcomoponerlo
+        if(jTextFieldCPago1.getText()==null){
+            if(jTextFieldCPago2.getText()==null){
+                if(jTextFieldCPago3.getText()==null){
+                    if(jTextFieldCPago4.getText()==null){
+                        if(jTextFieldCPago5.getText()==null){
+                            if(jTextFieldCPago6.getText()==null){
+                                if(jTextFieldCPago7.getText()==null){
+                                    if(jTextFieldCPago8.getText()==null){
+                                        if(jTextFieldCPago9.getText()==null){
+                                            if(jTextFieldCPago10.getText()==null){
+                                                if(jTextFieldCPago11.getText()==null){
+                                                     if(jTextFieldCPago12.getText()==null){
+                                                        cliente.setCondicionesPago("-");
+                                                     }else cliente.setCondicionesPago(jTextFieldCPago12.getText());
+                                                }else cliente.setCondicionesPago(jTextFieldCPago11.getText());
+                                            }else cliente.setCondicionesPago(jTextFieldCPago10.getText());
+                                        }else cliente.setCondicionesPago(jTextFieldCPago9.getText());
+                                    }else cliente.setCondicionesPago(jTextFieldCPago8.getText());
+                                }else cliente.setCondicionesPago(jTextFieldCPago7.getText());
+                            }else cliente.setCondicionesPago(jTextFieldCPago6.getText());
+                        }else cliente.setCondicionesPago(jTextFieldCPago5.getText());
+                    }else cliente.setCondicionesPago(jTextFieldCPago4.getText());
+                }else cliente.setCondicionesPago(jTextFieldCPago3.getText());
+            }else cliente.setCondicionesPago(jTextFieldCPago2.getText());
+        }else cliente.setCondicionesPago(jTextFieldCPago1.getText());
+
+        ///////////////////////////////
+        //DatosBancarios
+        cliente.setRecargoFinanciero(jTextFieldRecFinan.getText());
+        String cuentaBancaria = jTextFieldCBEnti.getText() + jTextFieldCBOfi.getText() + jTextFieldCBDC.getText() + jTextFieldCBCuenta.getText();
+        //Hacer
+        cliente.setBanco(jTextFieldBanco.getText());
+        cliente.setDomiciliobanco(jTextFieldDomiBanco.getText());
+        cliente.setPoblacionbanco(jTextFieldPoblaBanco.getText());
+        cliente.setProvinciabanco(jTextFieldProBanco.getText());
+        cliente.setCpbanco(jTextFieldCPBanco.getText());
+        cliente.setPaisbanco(jTextFieldPaisBanco.getText());
+        cliente.setCodigobanco(jTextFieldCodPaisBanco.getText());
+        cliente.setTitular(jTextFieldNombrePersonaBanco.getText());
+        cliente.setReferenciaInterna(jTextFieldRefInter.getText());
+        ///////////
+
+        cliente.setCodDevolucion(jTextFieldCodDev.getText());
+        String Iban = jTextFieldIBAN1.getText() + jTextFieldIBAN2.getText() + jTextFieldIBAN3.getText() + jTextFieldIBAN4.getText() + jTextFieldIBAN5.getText() + jTextFieldIBAN6.getText() + jTextFieldIBAN7.getText();
+        cliente.setIban(Iban);
+
+        cliente.setTipoSecuencia(jTextFieldTipSec.getText());
+        cliente.setReferenciaMandato(jTextFieldRefMand.getText());
+        Date fechaMandato = recombertirFecha(jTextFieldFechMand.getText());
+        cliente.setFechaMandato(fechaMandato);
+        cliente.setBancoAcreedor(jTextFieldBancoAcree.getText());
+
+        ///Contabilidad
+        cliente.setCuentaCliente(jTextFieldCuentaCli.getText());
+        cliente.setCuentaRecargoFinanciero(jTextFieldCuentaReFi.getText());
+        cliente.setCuentaVentas(jTextFieldCuentaVen.getText());
+        cliente.setCuentaDto(jTextFieldCuentaDto.getText());
+        cliente.setCuentaDtoPp(jTextFieldCuentaDtoPP.getText());
+        cliente.setCuentaPortes(jTextFieldCuentaPortes.getText());
+        cliente.setNtarjeta(jTextFieldNTarjeta.getText());
+
+        ///Fidelización
+        Date fechaNacimineto = recombertirFecha(jTextFieldFechNacimiento.getText());
+        cliente.setFechaNacimiento(fechaNacimineto);
+        cliente.setPuntos(jTextFieldPuntos.getText());
+        Date fechaPuntos = recombertirFecha(jTextFieldFechVencPuntos.getText());
+        cliente.setFechaVtoPuntos(fechaPuntos);
+        cliente.setEurosReales(jTextFieldEurosReal.getText());
+        Date fechaEuros = recombertirFecha(jTextFieldFechVtoEuros.getText());
+        cliente.setFechaVtoEuros(fechaEuros);
+
+        cm.setIdcliente((int)result);
+        cm.setNif(jTextFieldNIF.getText());
+        cm.setNombreComercial(jTextFieldNoCo.getText());
+        cm.setPoblacion(jTextFieldPobla.getText());
+        cm.setRazonSocial(jTextFieldRaSo.getText());
+        cm.setTlf(jTextFieldTelf1.getText());
+
+        try {
+            cc.guardar(cliente);
+            cmc.guardarEnBD(cm);
+        } catch (Exception ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
+        }
+        }else if(jButton2.isEnabled()){
+            Cliente cliente = new Cliente();
+        Clientemostrar cm = new Clientemostrar();
+        //General
+        cliente.setRazonSocial(jTextFieldRaSo.getText());
+        cliente.setNombreComercial(jTextFieldNoCo.getText());
+        cliente.setNif(jTextFieldNIF.getText());
+        cliente.setDomicilio(jTextFieldDomi.getText());
+        cliente.setPoblacion(jTextFieldPobla.getText());
+        cliente.setCp(jTextFieldCP.getText());	
+        cliente.setProvincia(jTextFieldPro.getText());
+        cliente.setPais(jTextFieldPais.getText());
+        cliente.setTlf1(jTextFieldTelf1.getText());
+        cliente.setEmail(jTextFieldEmail1.getText());
+        cliente.setPaginaWeb(jTextFieldPagWeb.getText());
+        cliente.setFechaAlta(new Date());
+        //DatosComerciales
+        cliente.setTipoPvp(jTextFieldPVP.getText());
+        cliente.setDtoArticulo(jTextFieldDtoArt.getText());
+        cliente.setFormaPago(jTextFieldFpago.getText());
+        cliente.setDtoFijo(jTextFieldDtoFijo.getText());
+        cliente.setDtoPp(jTextFieldDtoPP.getText());
+        cliente.setRiesgo(jTextFieldRiesgo.getText());
+        cliente.setTipoFactura(jTextFieldTFac.getText());
+        //Mirarpasabercomohacerlo
+        if(jTextFieldDiasPago1.getText()==null){
+            if(jTextFieldDiasPago2.getText()==null){
+                if(jTextFieldDiasPago3.getText()==null){
+                    cliente.setDiasPago("-");
+                }else cliente.setDiasPago(jTextFieldDiasPago1.getText());
+           }else cliente.setDiasPago(jTextFieldDiasPago2.getText());
+        }else cliente.setDiasPago(jTextFieldDiasPago3.getText());
+        //////////////////////////////////
+        cliente.setDiasPlazoMax(jTextFieldDiasPlazoMax.getText());
+        cliente.setMesNoPago(jTextFieldMesNoPago.getText());
+        //Mirarcomoponerlo
+        if(jTextFieldCPago1.getText()==null){
+            if(jTextFieldCPago2.getText()==null){
+                if(jTextFieldCPago3.getText()==null){
+                    if(jTextFieldCPago4.getText()==null){
+                        if(jTextFieldCPago5.getText()==null){
+                            if(jTextFieldCPago6.getText()==null){
+                                if(jTextFieldCPago7.getText()==null){
+                                    if(jTextFieldCPago8.getText()==null){
+                                        if(jTextFieldCPago9.getText()==null){
+                                            if(jTextFieldCPago10.getText()==null){
+                                                if(jTextFieldCPago11.getText()==null){
+                                                     if(jTextFieldCPago12.getText()==null){
+                                                        cliente.setCondicionesPago("-");
+                                                     }else cliente.setCondicionesPago(jTextFieldCPago12.getText());
+                                                }else cliente.setCondicionesPago(jTextFieldCPago11.getText());
+                                            }else cliente.setCondicionesPago(jTextFieldCPago10.getText());
+                                        }else cliente.setCondicionesPago(jTextFieldCPago9.getText());
+                                    }else cliente.setCondicionesPago(jTextFieldCPago8.getText());
+                                }else cliente.setCondicionesPago(jTextFieldCPago7.getText());
+                            }else cliente.setCondicionesPago(jTextFieldCPago6.getText());
+                        }else cliente.setCondicionesPago(jTextFieldCPago5.getText());
+                    }else cliente.setCondicionesPago(jTextFieldCPago4.getText());
+                }else cliente.setCondicionesPago(jTextFieldCPago3.getText());
+            }else cliente.setCondicionesPago(jTextFieldCPago2.getText());
+        }else cliente.setCondicionesPago(jTextFieldCPago1.getText());
+
+        ///////////////////////////////
+        //DatosBancarios
+        cliente.setRecargoFinanciero(jTextFieldRecFinan.getText());
+        String cuentaBancaria = jTextFieldCBEnti.getText() + jTextFieldCBOfi.getText() + jTextFieldCBDC.getText() + jTextFieldCBCuenta.getText();
+        //Hacer
+        cliente.setBanco(jTextFieldBanco.getText());
+        cliente.setDomiciliobanco(jTextFieldDomiBanco.getText());
+        cliente.setPoblacionbanco(jTextFieldPoblaBanco.getText());
+        cliente.setProvinciabanco(jTextFieldProBanco.getText());
+        cliente.setCpbanco(jTextFieldCPBanco.getText());
+        cliente.setPaisbanco(jTextFieldPaisBanco.getText());
+        cliente.setCodigobanco(jTextFieldCodPaisBanco.getText());
+        cliente.setTitular(jTextFieldNombrePersonaBanco.getText());
+        cliente.setReferenciaInterna(jTextFieldRefInter.getText());
+        ///////////
+
+        cliente.setCodDevolucion(jTextFieldCodDev.getText());
+        String Iban = jTextFieldIBAN1.getText() + jTextFieldIBAN2.getText() + jTextFieldIBAN3.getText() + jTextFieldIBAN4.getText() + jTextFieldIBAN5.getText() + jTextFieldIBAN6.getText() + jTextFieldIBAN7.getText();
+        cliente.setIban(Iban);
+
+        cliente.setTipoSecuencia(jTextFieldTipSec.getText());
+        cliente.setReferenciaMandato(jTextFieldRefMand.getText());
+        Date fechaMandato = recombertirFecha(jTextFieldFechMand.getText());
+        cliente.setFechaMandato(fechaMandato);
+        cliente.setBancoAcreedor(jTextFieldBancoAcree.getText());
+
+        ///Contabilidad
+        cliente.setCuentaCliente(jTextFieldCuentaCli.getText());
+        cliente.setCuentaRecargoFinanciero(jTextFieldCuentaReFi.getText());
+        cliente.setCuentaVentas(jTextFieldCuentaVen.getText());
+        cliente.setCuentaDto(jTextFieldCuentaDto.getText());
+        cliente.setCuentaDtoPp(jTextFieldCuentaDtoPP.getText());
+        cliente.setCuentaPortes(jTextFieldCuentaPortes.getText());
+        cliente.setNtarjeta(jTextFieldNTarjeta.getText());
+
+        ///Fidelización
+        Date fechaNacimineto = recombertirFecha(jTextFieldFechNacimiento.getText());
+        cliente.setFechaNacimiento(fechaNacimineto);
+        cliente.setPuntos(jTextFieldPuntos.getText());
+        Date fechaPuntos = recombertirFecha(jTextFieldFechVencPuntos.getText());
+        cliente.setFechaVtoPuntos(fechaPuntos);
+        cliente.setEurosReales(jTextFieldEurosReal.getText());
+        Date fechaEuros = recombertirFecha(jTextFieldFechVtoEuros.getText());
+        cliente.setFechaVtoEuros(fechaEuros);
+
+        cm.setIdcliente((int)result);
+        cm.setNif(jTextFieldNIF.getText());
+        cm.setNombreComercial(jTextFieldNoCo.getText());
+        cm.setPoblacion(jTextFieldPobla.getText());
+        cm.setRazonSocial(jTextFieldRaSo.getText());
+        cm.setTlf(jTextFieldTelf1.getText());
+
+        try {
+            cc.guardar(cliente);
+            cmc.guardarEnBD(cm);
+        } catch (Exception ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
+        }
+        }
+        
+        
+
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextFieldPagWebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPagWebActionPerformed
+        
+
+    }//GEN-LAST:event_jTextFieldPagWebActionPerformed
+
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         BusquedaCliente bc = new BusquedaCliente();
         bc.setVisible(true);
-        dispose();            
+        dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextFieldPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPaisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldPaisActionPerformed
+
+    private void jTextFieldIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2980,12 +3077,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2999,11 +3090,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -3018,7 +3105,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -3044,7 +3130,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
@@ -3097,7 +3182,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
@@ -3116,7 +3200,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -3135,7 +3218,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextAreaObs;
     private javax.swing.JTextField jTextField8FechAlta2;
-    private javax.swing.JTextField jTextFieldAviso;
     private javax.swing.JTextField jTextFieldBanco;
     private javax.swing.JTextField jTextFieldBancoAcree;
     private javax.swing.JTextField jTextFieldBusq;
@@ -3143,7 +3225,6 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JTextField jTextFieldCBDC;
     private javax.swing.JTextField jTextFieldCBEnti;
     private javax.swing.JTextField jTextFieldCBOfi;
-    private javax.swing.JTextField jTextFieldCIden;
     private javax.swing.JTextField jTextFieldCP;
     private javax.swing.JTextField jTextFieldCPBanco;
     private javax.swing.JTextField jTextFieldCPago1;
@@ -3177,10 +3258,7 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JTextField jTextFieldDtoFijo;
     private javax.swing.JTextField jTextFieldDtoPP;
     private javax.swing.JTextField jTextFieldEmail1;
-    private javax.swing.JTextField jTextFieldEmail2;
     private javax.swing.JTextField jTextFieldEurosReal;
-    private javax.swing.JTextField jTextFieldFax1;
-    private javax.swing.JTextField jTextFieldFax2;
     private javax.swing.JTextField jTextFieldFechAlta;
     private javax.swing.JTextField jTextFieldFechMand;
     private javax.swing.JTextField jTextFieldFechNacimiento;
@@ -3221,126 +3299,173 @@ public class Clientes extends javax.swing.JFrame implements Serializable{
     private javax.swing.JTextField jTextFieldSwiftBio;
     private javax.swing.JTextField jTextFieldTFac;
     private javax.swing.JTextField jTextFieldTelf1;
-    private javax.swing.JTextField jTextFieldTelf2;
     private javax.swing.JTextField jTextFieldTipSec;
     // End of variables declaration//GEN-END:variables
-   public void rellenarHuecos(ClienteEntity cliente){
-       
-       //General
-       jTextFieldId.setText(""+cliente.getId());
-       jTextFieldCIden.setText(""+cliente.getId());
-       jTextFieldRaSo.setText(cliente.getRazonSocial());
-       jTextFieldNoCo.setText(cliente.getNombreComercial());
-       jTextFieldNIF.setText(cliente.getNIF());
-       jTextFieldDomi.setText(cliente.getDomicilio());
-       jTextFieldPobla.setText(cliente.getPoblacion());
-       jTextFieldCP.setText(cliente.getCP());
-       jTextFieldPro.setText(cliente.getProvincia());
-       jTextFieldPais.setText(cliente.getPais());
-       jTextFieldTelf1.setText(cliente.getTlf1());
-       jTextFieldEmail1.setText(cliente.getEmail());
-       jTextFieldPagWeb.setText(cliente.getPaginaWeb());
-       jTextFieldFechAlta.setText(cliente.getFechaAlta());
-       
-       //Datos Comerciales
-       jTextFieldId2.setText(""+cliente.getId());
-       jTextFieldPVP.setText(cliente.getTipoPVP());
-       jTextFieldDtoArt.setText(cliente.getDtoArticulo());
-       jTextFieldFpago.setText(cliente.getFormaPago());
-       jTextFieldDtoFijo.setText(cliente.getDtoFijo());
-       jTextFieldDtoPP.setText(cliente.getDtoPP());
-       jTextFieldRiesgo.setText(cliente.getRiesgo());       
-       jTextFieldTFac.setText(cliente.getTipoFactura());
-       //Mirar pa saber como hacerlo
-       jTextFieldDiasPago1.setText(cliente.getDiasPago());
-       jTextFieldDiasPago2.setText(cliente.getDiasPago());
-       jTextFieldDiasPago3.setText(cliente.getDiasPago());
-       ///////////////////////////////////
-       jTextFieldDiasPlazoMax.setText(cliente.getDiasPlazoMax());
-       jTextFieldMesNoPago.setText(cliente.getMesNoPago());
-       //Mirar como ponerlo
-       jTextFieldCPago1.setText(cliente.getCondicionesPago());
-       jTextFieldCPago2.setText(cliente.getCondicionesPago());
-       jTextFieldCPago3.setText(cliente.getCondicionesPago());
-       jTextFieldCPago4.setText(cliente.getCondicionesPago());
-       jTextFieldCPago7.setText(cliente.getCondicionesPago());
-       jTextFieldCPago10.setText(cliente.getCondicionesPago());
-       jTextFieldCPago5.setText(cliente.getCondicionesPago());
-       jTextFieldCPago8.setText(cliente.getCondicionesPago());
-       jTextFieldCPago11.setText(cliente.getCondicionesPago());
-       jTextFieldCPago6.setText(cliente.getCondicionesPago());
-       jTextFieldCPago9.setText(cliente.getCondicionesPago());
-       jTextFieldCPago12.setText(cliente.getCondicionesPago());
-        jTextFieldAviso.setText(cliente.getCondicionesPago());  
-       ///////////////////////////////
-       
-       
-       //Datos Bancarios
-       jTextFieldId3.setText(""+cliente.getId());
-       jTextFieldRecFinan.setText(cliente.getRecargoFinanciero());
-       String cuentaBancaria = cliente.getCodCuentaBancaria();
-       String entidad =cuentaBancaria.substring(0,3);
-       String oficina = cuentaBancaria.substring(4,5);
-       String control = cuentaBancaria.substring(6,9);
-       String cu = cuentaBancaria.substring(10);
-       jTextFieldCBEnti.setText(entidad);
-       jTextFieldCBOfi.setText(oficina);
-       jTextFieldCBCuenta.setText(cu);
-       jTextFieldCBDC.setText(control);
-       ///Hacer
-       jTextFieldBanco.setText(cliente.getBanco());
-       jTextFieldDomiBanco.setText(cliente.getDomicilioBanco());
-       jTextFieldPoblaBanco.setText(cliente.getPoblacionBanco());
-       jTextFieldProBanco.setText(cliente.getProvinciaBanco());
-       jTextFieldCPBanco.setText(cliente.getCpBanco());
-       jTextFieldPaisBanco.setText(cliente.getPaisBanco());
-       jTextFieldCodPaisBanco.setText(cliente.getCodigoBanco());
-       jTextFieldNombrePersonaBanco.setText(cliente.getTitular());
-       jTextFieldRefInter.setText(cliente.getReferInter());
-       jTextFieldSwiftBio.setText(cliente.getCodDevolucion());
-       /////////////////////////////////////
-       
-       
-       jTextFieldCodDev.setText(cliente.getCodDevolucion());
-       String Iban = cliente.getIBAN();
-       String ib1 = Iban.substring(0,3);
-       String ib2 = Iban.substring(4,7);
-       String ib3 = Iban.substring(8,11);
-       String ib4 = Iban.substring(12,15);
-       String ib5 = Iban.substring(16,19);
-       String ib6 = Iban.substring(20,23);
-       String ib7 = Iban.substring(24,27);
-       jTextFieldIBAN1.setText(ib1);
-       jTextFieldIBAN2.setText(ib2);
-       jTextFieldIBAN3.setText(ib3);
-       jTextFieldIBAN4.setText(ib4);       
-       jTextFieldIBAN5.setText(ib5);
-       jTextFieldIBAN6.setText(ib6);
-       jTextFieldIBAN7.setText(ib7);
-       
-       jTextFieldTipSec.setText(cliente.getTipoSecuencia());
-       jTextFieldRefMand.setText(cliente.getReferenciaMandato());
-       jTextFieldFechMand.setText(cliente.getFechaMandato());
-       jTextFieldBancoAcree.setText(cliente.getBancoAcreedor());
-       
-       ///Contabilidad
-       jTextFieldId4.setText(""+cliente.getId());
-       jTextFieldCuentaCli.setText(cliente.getCuentaCliente());
-       jTextFieldCuentaReFi.setText(cliente.getCuentaRecargoFinanciero());
-       jTextFieldCuentaVen.setText(cliente.getCuentaVentas());
-       jTextFieldCuentaDto.setText(cliente.getCuentaDto());
-       jTextFieldCuentaDtoPP.setText(cliente.getCuentaDtoPP());
-       jTextFieldCuentaPortes.setText(cliente.getCuentaPortes());
-       jTextFieldNTarjeta.setText(cliente.getNTarjeta());
-       
-       ///Fidelización
-       jTextFieldId5.setText(""+cliente.getId());
-       jTextFieldFechNacimiento.setText(cliente.getFechaNacimiento());
-       jTextField8FechAlta2.setText(cliente.getFechaAlta());
-       jTextFieldPuntos.setText(cliente.getPuntos());
-       jTextFieldFechVencPuntos.setText(cliente.getFechaVtoPuntos());
-       jTextFieldEurosReal.setText(cliente.getEurosReales());
-       jTextFieldFechVtoEuros.setText(cliente.getFechaVtoEuros());
-   }
-}
+   public void rellenarHuecos(Cliente cliente) {
 
+        //General
+        jTextFieldId.setText("" + esNull(cliente.getId()).toString());
+        jTextFieldRaSo.setText(esNull(cliente.getRazonSocial()).toString());
+        jTextFieldNoCo.setText(esNull(cliente.getNombreComercial()).toString());
+        jTextFieldNIF.setText(esNull(cliente.getNif()).toString());
+        jTextFieldDomi.setText(esNull(cliente.getDomicilio()).toString());
+        jTextFieldPobla.setText(esNull(cliente.getPoblacion()).toString());
+        jTextFieldCP.setText(esNull(cliente.getCp()).toString());
+        jTextFieldPro.setText(esNull(cliente.getProvincia()).toString());
+        jTextFieldPais.setText(esNull(cliente.getPais()).toString());
+        jTextFieldTelf1.setText(esNull(cliente.getTlf1()).toString());
+        jTextFieldEmail1.setText(esNull(cliente.getEmail()).toString());
+        jTextFieldPagWeb.setText(esNull(cliente.getPaginaWeb()).toString());
+
+        jTextFieldFechAlta.setText(formatoFecha(cliente.getFechaAlta()));
+
+        //Datos Comerciales
+        jTextFieldId2.setText("" + esNull(cliente.getId()).toString());
+        jTextFieldPVP.setText(esNull(cliente.getTipoPvp()).toString());
+        jTextFieldDtoArt.setText(esNull(cliente.getDtoArticulo()).toString());
+        jTextFieldFpago.setText(esNull(cliente.getFormaPago()).toString());
+        jTextFieldDtoFijo.setText(esNull(cliente.getDtoFijo()).toString());
+        jTextFieldDtoPP.setText(esNull(cliente.getDtoPp()).toString());
+        jTextFieldRiesgo.setText(esNull(cliente.getRiesgo()).toString());
+        jTextFieldTFac.setText(esNull(cliente.getTipoFactura()).toString());
+        //Mirar pa saber como hacerlo
+        jTextFieldDiasPago1.setText(esNull(cliente.getDiasPago()).toString());
+        jTextFieldDiasPago2.setText(esNull(cliente.getDiasPago()).toString());
+        jTextFieldDiasPago3.setText(esNull(cliente.getDiasPago()).toString());
+        ///////////////////////////////////
+        jTextFieldDiasPlazoMax.setText(esNull(cliente.getDiasPlazoMax()).toString());
+        jTextFieldMesNoPago.setText(esNull(cliente.getMesNoPago()).toString());
+        //Mirar como ponerlo
+        jTextFieldCPago1.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago2.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago3.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago4.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago7.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago10.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago5.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago8.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago11.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago6.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago9.setText(esNull(cliente.getCondicionesPago()).toString());
+        jTextFieldCPago12.setText(esNull(cliente.getCondicionesPago()).toString());
+        ///////////////////////////////
+
+        //Datos Bancarios
+        jTextFieldId3.setText("" + esNull(cliente.getId()).toString());
+        jTextFieldRecFinan.setText(esNull(cliente.getRecargoFinanciero()).toString());
+        String cuentaBancaria = cliente.getCodCuentaBancaria();
+        if (cuentaBancaria != null && cuentaBancaria.compareTo("")!=0) {
+            String entidad = cuentaBancaria.substring(0, 3);
+            String oficina = cuentaBancaria.substring(4, 5);
+            String control = cuentaBancaria.substring(6, 9);
+            String cu = cuentaBancaria.substring(10);
+            jTextFieldCBEnti.setText(entidad);
+            jTextFieldCBOfi.setText(oficina);
+            jTextFieldCBCuenta.setText(cu);
+            jTextFieldCBDC.setText(control);
+        } else {
+            jTextFieldCBEnti.setText("-");
+            jTextFieldCBOfi.setText("-");
+            jTextFieldCBCuenta.setText("-");
+            jTextFieldCBDC.setText("-");
+        }
+
+        ///Hacer
+        jTextFieldBanco.setText(esNull(cliente.getBanco()).toString());
+        jTextFieldDomiBanco.setText(esNull(cliente.getDomiciliobanco()).toString());
+        jTextFieldPoblaBanco.setText(esNull(cliente.getPoblacionbanco()).toString());
+        jTextFieldProBanco.setText(esNull(cliente.getProvinciabanco()).toString());
+        jTextFieldCPBanco.setText(esNull(cliente.getCpbanco()).toString());
+        jTextFieldPaisBanco.setText(esNull(cliente.getPaisbanco()).toString());
+        jTextFieldCodPaisBanco.setText(esNull(cliente.getCodigobanco()).toString());
+        jTextFieldNombrePersonaBanco.setText(esNull(cliente.getTitular()).toString());
+        jTextFieldRefInter.setText(esNull(cliente.getReferenciaInterna()).toString());
+        jTextFieldSwiftBio.setText(esNull(cliente.getCodDevolucion()).toString());
+        /////////////////////////////////////
+
+        jTextFieldCodDev.setText(esNull(cliente.getCodDevolucion()).toString());
+        String Iban = cliente.getIban();
+        if (Iban != null && Iban.compareTo("")!=0) {
+            String ib1 = Iban.substring(0, 3);
+            String ib2 = Iban.substring(4, 7);
+            String ib3 = Iban.substring(8, 11);
+            String ib4 = Iban.substring(12, 15);
+            String ib5 = Iban.substring(16, 19);
+            String ib6 = Iban.substring(20, 23);
+            String ib7 = Iban.substring(24, 27);
+            jTextFieldIBAN1.setText(esNull(ib1).toString());
+            jTextFieldIBAN2.setText(esNull(ib2).toString());
+            jTextFieldIBAN3.setText(esNull(ib3).toString());
+            jTextFieldIBAN4.setText(esNull(ib4).toString());
+            jTextFieldIBAN5.setText(esNull(ib5).toString());
+            jTextFieldIBAN6.setText(esNull(ib6).toString());
+            jTextFieldIBAN7.setText(esNull(ib7).toString());
+        } else {
+            jTextFieldIBAN1.setText("-");
+            jTextFieldIBAN2.setText("-");
+            jTextFieldIBAN3.setText("-");
+            jTextFieldIBAN4.setText("-");
+            jTextFieldIBAN5.setText("-");
+            jTextFieldIBAN6.setText("-");
+            jTextFieldIBAN7.setText("-");
+        }
+
+        jTextFieldTipSec.setText(esNull(cliente.getTipoSecuencia()).toString());
+        jTextFieldRefMand.setText(esNull(cliente.getReferenciaMandato()).toString());
+        jTextFieldFechMand.setText(formatoFecha(cliente.getFechaMandato()));
+        jTextFieldBancoAcree.setText(esNull(cliente.getBancoAcreedor()).toString());
+
+        ///Contabilidad
+        jTextFieldId4.setText("" + esNull(cliente.getId()).toString());
+        jTextFieldCuentaCli.setText(esNull(cliente.getCuentaCliente()).toString());
+        jTextFieldCuentaReFi.setText(esNull(cliente.getCuentaRecargoFinanciero()).toString());
+        jTextFieldCuentaVen.setText(esNull(cliente.getCuentaVentas()).toString());
+        jTextFieldCuentaDto.setText(esNull(cliente.getCuentaDto()).toString());
+        jTextFieldCuentaDtoPP.setText(esNull(cliente.getCuentaDtoPp()).toString());
+        jTextFieldCuentaPortes.setText(esNull(cliente.getCuentaPortes()).toString());
+        jTextFieldNTarjeta.setText(esNull(cliente.getNtarjeta()).toString());
+
+        ///Fidelización
+        jTextFieldId5.setText("" + esNull(cliente.getId()).toString());
+        jTextFieldFechNacimiento.setText(formatoFecha(cliente.getFechaNacimiento()));
+        jTextField8FechAlta2.setText(formatoFecha(cliente.getFechaAlta()));
+        jTextFieldPuntos.setText(esNull(cliente.getPuntos()).toString());
+        jTextFieldFechVencPuntos.setText(formatoFecha(cliente.getFechaVtoPuntos()));
+        jTextFieldEurosReal.setText(esNull(cliente.getEurosReales()).toString());
+        jTextFieldFechVtoEuros.setText(formatoFecha(cliente.getFechaVtoEuros()));
+    }
+
+    public Object esNull(Object dato) {
+        if (null == dato) {
+            return "-";
+        } else {
+            return dato;
+        }
+    }
+
+    private String formatoFecha(Date fecha1) {
+
+        DateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
+        if ((esNull(fecha1)).equals("-")) {
+            return "-";
+        } else {
+            return fecha.format(fecha1);
+        }
+    }
+    
+    public Date recombertirFecha(String fecha){
+        Date fecha3 = new Date();
+        if(fecha.contains("-")){
+            String[] fecha2 = fecha.split("-");
+            fecha3.setDate(Integer.parseInt(fecha2[0]));
+            fecha3.setMonth(Integer.parseInt(fecha2[1]));
+            fecha3.setYear(Integer.parseInt(fecha2[2]));
+        }else if(fecha.contains("/")){
+            String[] fecha2 = fecha.split("/");
+            fecha3.setDate(Integer.parseInt(fecha2[0]));
+            fecha3.setMonth(Integer.parseInt(fecha2[1]));
+            fecha3.setYear(Integer.parseInt(fecha2[2]));
+        }
+        return fecha3;
+    }
+}

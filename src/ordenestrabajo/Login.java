@@ -4,17 +4,6 @@
  * and open the template in the editor.
  */
 package ordenestrabajo;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
-
-/**
- *
- * @author Samuel
- */
-import persistencia.hibernate.HibernateUtil;
 public class Login extends javax.swing.JFrame {
 
     /**

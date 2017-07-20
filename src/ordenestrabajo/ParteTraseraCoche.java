@@ -5,6 +5,9 @@
  */
 package ordenestrabajo;
 
+import Controller.ParteTraseraCocheController;
+import satcar6.entity.Partetraseracoche;
+
 /**
  *
  * @author Samuel
@@ -14,11 +17,24 @@ public class ParteTraseraCoche extends javax.swing.JFrame {
     /**
      * Creates new form ParteDerCoche
      */
+
+    ParteTraseraCocheController ptc;
+    
     public ParteTraseraCoche() {
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         setTitle("Parte trasera coche");
+        ptc = new ParteTraseraCocheController();
+    }
+    
+    public ParteTraseraCoche(Partetraseracoche traseraParte) {
+        initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setTitle("Parte derecha coche");
+        rellenarHuecos(traseraParte);
+        ptc = new ParteTraseraCocheController();
     }
 
     /**
@@ -36,6 +52,8 @@ public class ParteTraseraCoche extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -53,6 +71,15 @@ public class ParteTraseraCoche extends javax.swing.JFrame {
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Nº Reparación:");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -63,13 +90,21 @@ public class ParteTraseraCoche extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -82,6 +117,10 @@ public class ParteTraseraCoche extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,9 +163,36 @@ public class ParteTraseraCoche extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    private void rellenarHuecos(Partetraseracoche traseraParte) {
+        jTextArea1.setText(traseraParte.getObsPartetrasera());
+        jTextArea2.setText(traseraParte.getMaterialestrasera());
+    }
+    
+    Partetraseracoche DevolverValores() {
+        Partetraseracoche pderc = new Partetraseracoche();
+        pderc.setIdCliente(Integer.parseInt(jTextField1.getText()));
+        pderc.setMaterialestrasera(jTextArea2.getText());
+        pderc.setObsPartetrasera(jTextArea1.getText());
+        return pderc;
+    }
+    Partetraseracoche DevolverValoresAModificar(int id) throws Exception {
+        //TODO hacer busqueda de partetrasera para poder modificarloç
+        Partetraseracoche pderc = ptc.findByIdReparacion(id);
+        pderc.setIdCliente(Integer.parseInt(jTextField1.getText()));
+        pderc.setMaterialestrasera(jTextArea2.getText());
+        pderc.setObsPartetrasera(jTextArea1.getText());
+        return pderc;
+    }
+    
+    void datoId(String text) {
+        jTextField1.setText(text);
+    }
 }

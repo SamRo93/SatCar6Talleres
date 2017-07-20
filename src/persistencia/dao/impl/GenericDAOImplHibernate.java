@@ -3,17 +3,11 @@ package persistencia.dao.impl;
 import persistencia.dao.GenericDAO;
 import persistencia.dao.BussinessException;
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.ejb.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import satcar6.util.HibernateUtil;
 
 /**
  *
@@ -21,16 +15,16 @@ import javax.persistence.PersistenceContext;
  */
 public class GenericDAOImplHibernate<T, ID extends Serializable> implements GenericDAO<T, ID> {
     
-    @Autowired
-    public SessionFactory sessionFactory;
-    
     private final static Logger LOGGER = Logger.getLogger(GenericDAOImplHibernate.class.getName());
     
     public GenericDAOImplHibernate(){}
-
+    Session session;
     @Override
-    public void saveOrUpdate(T entity) throws BussinessException {
-        Session session = sessionFactory.getCurrentSession();
+public void saveOrUpdate(T entity) throws BussinessException {
+    if(session ==null){
+        session = HibernateUtil.getSessionFactory().openSession();
+    }else session = HibernateUtil.getSessionFactory().getCurrentSession();
+        
         try{
             session.beginTransaction();
             session.saveOrUpdate(entity);
@@ -39,20 +33,18 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
         }catch(Exception e){
             System.out.println("Fallo intentando salvar");
         }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void delete(T entity) throws BussinessException {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         try{
             session.beginTransaction();
             session.delete(entity);
             session.getTransaction().commit();
         }catch(Exception e){
-            
+            System.err.println("No pudo entrar en: " + entity.getClass().getName());
         }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

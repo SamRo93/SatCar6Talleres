@@ -6,19 +6,15 @@
 package ordenestrabajo;
 
 import Controller.ClienteController;
+import Controller.ClientemostrarController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import ordenestrabajo.presentacion.ClienteEntity;
-import ordenestrabajo.presentacion.ClienteMostrarEntity;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import persistencia.dao.BussinessException;
-import persistencia.hibernate.HibernateUtil;
+import satcar6.entity.Cliente;
+import satcar6.entity.Clientemostrar;
 
 /**
  *
@@ -26,32 +22,17 @@ import persistencia.hibernate.HibernateUtil;
  */
 public class BusquedaCliente extends javax.swing.JFrame {
 
-    /**
+   
+/**
      * Creates new form BusquedaCliente
      */
-    Session session;
-    SessionFactory sf;
-    
-    @Autowired
-    ClienteController cc;
+    ClientemostrarController cmc = new ClientemostrarController();
+    ClienteController cc = new ClienteController();
     
     public BusquedaCliente() {
         initComponents();
         setLocationRelativeTo(null);
-        
-        try{
-            sf = HibernateUtil.getSessionFactory();
-            if(sf == null ){
-             HibernateUtil.buildSessionFactory();
-             sf = HibernateUtil.getSessionFactory();
-            }
-        session = sf.openSession();
-        }catch(Exception e){
-            System.out.println("Error " + e);
-        }
-        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,22 +178,23 @@ public class BusquedaCliente extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String caso = jComboBox1.getSelectedItem().toString();
-        List<ClienteMostrarEntity> list = new ArrayList<>();
+        String caso2 = jTextField1.getText();
+        List<Clientemostrar> list = new ArrayList<>();
         try {
-             list = cc.busquedaCliente(caso == null ? "" : caso,null == jTextField1.getText() ? "" : jTextField1.getText());
-        } catch (BussinessException ex) {
-            Logger.getLogger(BusquedaCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        List<String[]> lista = new ArrayList<>();
-        for(ClienteMostrarEntity li : list){
+            if(caso != null && caso2 != null){
+                list = cmc.busquedaDB(caso, caso2);
+            }else {
+                System.out.println("nos e ha introducido dato o dato2");
+            }
+            List<String[]> lista = new ArrayList<>();
+        for(Clientemostrar li : list){
             String[] k = new String[6];
             k[0] = ""+li.getId(); 
             k[1] = li.getRazonSocial();
             k[2] = li.getNombreComercial();
             k[3] = li.getPoblacion();
-            k[4] = li.getTlf1();
-            k[6] = li.getNIF();
+            k[4] = li.getTlf();
+            k[5] = li.getNif();
             lista.add(k);
         }
         DefaultTableModel dtm;
@@ -220,6 +202,14 @@ public class BusquedaCliente extends javax.swing.JFrame {
         for(String[] lo : lista){
             dtm.addRow(lo);
         }
+                
+        } catch (BussinessException ex) {
+            Logger.getLogger(BusquedaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(BusquedaCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -229,13 +219,17 @@ public class BusquedaCliente extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         int fila = jTable2.getSelectedRow();
-        int idTabla = (int) jTable2.getValueAt(fila, 0);
-        Query query = session.createQuery("Select a From ClienteEntity a where a.id like '" + idTabla + "'");
-        List<ClienteEntity > cli = query.list();
-        Clientes cl = null;
-        if(cli.size()!= 0){
-            cl = new Clientes(cli.get(0));
+        String idTabla =  jTable2.getValueAt(fila, 0).toString();
+        int id = Integer.parseInt(idTabla);
+        try {
+            Cliente ce = cc.buscarPorId(id);
+            if(ce != null){
+           Clientes cl = new Clientes(ce);
             cl.setVisible(true);
+        }
+        } catch (Exception ex) {
+            Logger.getLogger(BusquedaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error: " + ex);
         }
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed

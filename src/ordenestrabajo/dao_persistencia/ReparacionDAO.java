@@ -8,16 +8,15 @@ package ordenestrabajo.dao_persistencia;
 
 import java.util.Date;
 import java.util.List;
-import ordenestrabajo.presentacion.ClienteEntity;
-import ordenestrabajo.presentacion.ReparacionEntity;
 import persistencia.dao.BussinessException;
 import persistencia.dao.GenericDAO;
+import satcar6.entity.ReparacionEntity;
 /**
  *
  * @author Samuel
  */
 public interface ReparacionDAO extends GenericDAO<ReparacionEntity, Integer>{
-    List<ReparacionEntity> findById(int id ) throws BussinessException;
+    ReparacionEntity findById(int id ) throws BussinessException;
     List<ReparacionEntity> findByClient(int client) throws BussinessException;
     List<ReparacionEntity> findByMatricula(String matricula) throws BussinessException;
     List<ReparacionEntity> findByMarca(String marca) throws BussinessException;

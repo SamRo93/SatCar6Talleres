@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 11-jul-2017 20:30:24 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="satcar6.entity.Cliente" table="cliente" catalog="satcar6" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="razonSocial" type="string">
+            <column name="razonSocial" length="50" />
+        </property>
+        <property name="nombreComercial" type="string">
+            <column name="nombreComercial" length="50" />
+        </property>
+        <property name="nif" type="string">
+            <column name="nif" length="10" />
+        </property>
+        <property name="domicilio" type="string">
+            <column name="domicilio" length="50" />
+        </property>
+        <property name="poblacion" type="string">
+            <column name="poblacion" length="50" />
+        </property>
+        <property name="cp" type="string">
+            <column name="cp" length="5" />
+        </property>
+        <property name="provincia" type="string">
+            <column name="provincia" length="50" />
+        </property>
+        <property name="pais" type="string">
+            <column name="pais" length="50" />
+        </property>
+        <property name="tlf1" type="string">
+            <column name="tlf1" length="10" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="50" />
+        </property>
+        <property name="paginaWeb" type="string">
+            <column name="paginaWeb" length="50" />
+        </property>
+        <property name="fechaAlta" type="date">
+            <column name="fechaAlta" length="10" />
+        </property>
+        <property name="observaciones" type="string">
+            <column name="observaciones" length="50" />
+        </property>
+        <property name="banco" type="string">
+            <column name="banco" length="50" />
+        </property>
+        <property name="codigoPais" type="string">
+            <column name="codigoPais" length="50" />
+        </property>
+        <property name="titular" type="string">
+            <column name="titular" length="50" />
+        </property>
+        <property name="codCuentaBancaria" type="string">
+            <column name="codCuentaBancaria" length="50" />
+        </property>
+        <property name="codDevolucion" type="string">
+            <column name="codDevolucion" length="50" />
+        </property>
+        <property name="codIntCuentaBancaria" type="string">
+            <column name="codIntCuentaBancaria" length="50" />
+        </property>
+        <property name="iban" type="string">
+            <column name="iban" length="50" />
+        </property>
+        <property name="adeudoSepa" type="string">
+            <column name="adeudoSepa" length="50" />
+        </property>
+        <property name="tipoSecuencia" type="string">
+            <column name="tipoSecuencia" length="50" />
+        </property>
+        <property name="referenciaMandato" type="string">
+            <column name="referenciaMandato" length="50" />
+        </property>
+        <property name="fechaMandato" type="date">
+            <column name="fechaMandato" length="10" />
+        </property>
+        <property name="bancoAcreedor" type="string">
+            <column name="bancoAcreedor" length="50" />
+        </property>
+        <property name="cuentaCliente" type="string">
+            <column name="cuentaCliente" length="50" />
+        </property>
+        <property name="cuentaVentas" type="string">
+            <column name="cuentaVentas" length="50" />
+        </property>
+        <property name="cuentaRecargoFinanciero" type="string">
+            <column name="cuentaRecargoFinanciero" length="50" />
+        </property>
+        <property name="cuentaDto" type="string">
+            <column name="cuentaDto" length="50" />
+        </property>
+        <property name="cuentaDtoPp" type="string">
+            <column name="cuentaDtoPp" length="50" />
+        </property>
+        <property name="cuentaPortes" type="string">
+            <column name="cuentaPortes" length="50" />
+        </property>
+        <property name="ntarjeta" type="string">
+            <column name="ntarjeta" length="50" />
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fechaNacimiento" length="10" />
+        </property>
+        <property name="puntos" type="string">
+            <column name="puntos" length="50" />
+        </property>
+        <property name="fechaVtoPuntos" type="date">
+            <column name="fechaVtoPuntos" length="10" />
+        </property>
+        <property name="eurosReales" type="string">
+            <column name="eurosReales" length="50" />
+        </property>
+        <property name="fechaVtoEuros" type="date">
+            <column name="fechaVtoEuros" length="10" />
+        </property>
+        <property name="tipoPvp" type="string">
+            <column name="tipoPvp" length="50" />
+        </property>
+        <property name="dtoArticulo" type="string">
+            <column name="dtoArticulo" length="50" />
+        </property>
+        <property name="dtoFijo" type="string">
+            <column name="dtoFijo" length="50" />
+        </property>
+        <property name="dtoPp" type="string">
+            <column name="dtoPp" length="50" />
+        </property>
+        <property name="riesgo" type="string">
+            <column name="riesgo" length="50" />
+        </property>
+        <property name="tipoFactura" type="string">
+            <column name="tipoFactura" length="50" />
+        </property>
+        <property name="formaPago" type="string">
+            <column name="formaPago" length="50" />
+        </property>
+        <property name="diasPago" type="string">
+            <column name="diasPago" length="50" />
+        </property>
+        <property name="mesNoPago" type="string">
+            <column name="mesNoPago" length="50" />
+        </property>
+        <property name="leyMorosidad" type="string">
+            <column name="leyMorosidad" length="50" />
+        </property>
+        <property name="diasPlazoMax" type="string">
+            <column name="diasPlazoMax" length="50" />
+        </property>
+        <property name="condicionesPago" type="string">
+            <column name="condicionesPago" length="50" />
+        </property>
+        <property name="recargoFinanciero" type="string">
+            <column name="recargoFinanciero" length="50" />
+        </property>
+        <property name="seAplicaSobre" type="string">
+            <column name="seAplicaSobre" length="50" />
+        </property>
+        <property name="bancoDomi" type="string">
+            <column name="bancoDomi" length="50" />
+        </property>
+        <property name="bancoPobla" type="string">
+            <column name="bancoPobla" length="50" />
+        </property>
+        <property name="bancoCp" type="string">
+            <column name="bancoCp" length="50" />
+        </property>
+        <property name="bancoProv" type="string">
+            <column name="bancoProv" length="50" />
+        </property>
+        <property name="bancoPais" type="string">
+            <column name="bancoPais" length="50" />
+        </property>
+        <property name="bancoCodigo" type="string">
+            <column name="bancoCodigo" length="50" />
+        </property>
+        <property name="referenciaInterna" type="string">
+            <column name="referenciaInterna" length="50" />
+        </property>
+        <property name="domiciliobanco" type="string">
+            <column name="domiciliobanco" length="50" />
+        </property>
+        <property name="poblacionbanco" type="string">
+            <column name="poblacionbanco" length="50" />
+        </property>
+        <property name="provinciabanco" type="string">
+            <column name="provinciabanco" length="50" />
+        </property>
+        <property name="cpbanco" type="string">
+            <column name="cpbanco" length="5" />
+        </property>
+        <property name="paisbanco" type="string">
+            <column name="paisbanco" length="50" />
+        </property>
+        <property name="codigobanco" type="string">
+            <column name="codigobanco" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

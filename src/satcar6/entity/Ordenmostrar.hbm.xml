@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 11-jul-2017 20:30:24 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="satcar6.entity.Ordenmostrar" table="ordenmostrar" catalog="satcar6" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="fecha" type="date">
+            <column name="fecha" length="10" />
+        </property>
+        <property name="idcliente" type="java.lang.Integer">
+            <column name="idcliente" />
+        </property>
+        <property name="marca" type="string">
+            <column name="marca" length="50" />
+        </property>
+        <property name="modelo" type="string">
+            <column name="modelo" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

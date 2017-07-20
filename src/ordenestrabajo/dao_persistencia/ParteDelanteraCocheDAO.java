@@ -5,12 +5,15 @@
  */
 package ordenestrabajo.dao_persistencia;
 
-import ordenestrabajo.presentacion.ParteDelanteraCocheEntity;
+import ordenestrabajo.ParteDelanteraCoche;
 import persistencia.dao.GenericDAO;
+import satcar6.entity.Parteabajocoche;
 /**
  *
  * @author Samuel
  */
-public interface ParteDelanteraCocheDAO extends GenericDAO<ParteDelanteraCocheEntity, Integer>{
-    
+public interface ParteDelanteraCocheDAO extends GenericDAO<Parteabajocoche, Integer>{
+    public Parteabajocoche findById(int id) throws Exception;
+
+    public Parteabajocoche findByIdRepa(int id) throws Exception;
 }

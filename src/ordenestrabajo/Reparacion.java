@@ -1,7 +1,33 @@
 package ordenestrabajo;
 
+import Controller.OrdenmostrarController;
+import Controller.ParteArribaCocheController;
+import Controller.ParteDelanteraCocheController;
+import Controller.ParteDerCocheController;
+import Controller.ParteIzqCocheController;
+import Controller.ParteTraseraCocheController;
+import Controller.ReparacionController;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import ordenestrabajo.dao_persistencia.ClienteDAO;
+import ordenestrabajo.dao_persistencia.impl.ClienteDAOImplHibernate;
+import satcar6.entity.Cliente;
+import satcar6.entity.Ordenmostrar;
+import satcar6.entity.Parteabajocoche;
+import satcar6.entity.ReparacionEntity;
+import satcar6.entity.Partearribacoche;
+import satcar6.entity.Partedercoche;
+import satcar6.entity.Parteizqcoche;
+import satcar6.entity.Partetraseracoche;
+import Controller.CrearPDF;
+import java.io.File;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,10 +40,42 @@ import javax.swing.ImageIcon;
  * @author Samuel
  */
 public class Reparacion extends javax.swing.JFrame implements Serializable {
+    
+     private ReparacionController rc = new ReparacionController();
+    
+    private OrdenmostrarController omc = new OrdenmostrarController();
+
+    private ReparacionEntity cl;
+    
+    private ClienteDAO clienteDAO;
+    
+    private long result = 1;
+    
+    ParteDerCoche derPart;
+    ParteIzqCoche izqPart;
+    ParteDelanteraCoche delanteraPart;
+    ParteTraseraCoche traseraPart;
+    ParteArribaCoche arribaPart;
+    
+    private ParteArribaCocheController ac;
+    private ParteDelanteraCocheController ad;
+    private ParteDerCocheController ader;
+    private ParteIzqCocheController ai;
+    private ParteTraseraCocheController at;
+    
+    
+    
+    
         
     public Reparacion() {
+       
         initComponents();
         try{
+            derPart = new ParteDerCoche();
+            izqPart = new ParteIzqCoche();
+            delanteraPart = new ParteDelanteraCoche();
+            traseraPart = new ParteTraseraCoche();
+            arribaPart = new ParteArribaCoche();
             setIconImage(new ImageIcon(getClass().getResource("../Imagenes/MarcaSatCar.png")).getImage());
             setLocationRelativeTo(null);
             setTitle("General");
@@ -25,6 +83,19 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         catch(Exception ex){
             System.out.println("Ha ocurrido un error al mostrar la imagen");        
         }
+    }
+
+    Reparacion(satcar6.entity.ReparacionEntity cl) {
+        
+         this.cl =cl;
+        initComponents();
+        setLocationRelativeTo(null);
+         try {
+             rellenarHuecos(cl);
+         } catch (Exception ex) {
+             Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        clienteDAO = new ClienteDAOImplHibernate();
     }
 
     /**
@@ -59,10 +130,8 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         jTextField7 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -84,6 +153,7 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reparación");
@@ -94,6 +164,11 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Tick.png"))); // NOI18N
         jButton4.setText("Aceptar");
         jButton4.setBorder(null);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cancelar.png"))); // NOI18N
         jButton3.setText("Cancelar");
@@ -181,6 +256,11 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         jButton8.setBorderPainted(false);
         jButton8.setContentAreaFilled(false);
         jButton8.setPreferredSize(new java.awt.Dimension(20, 20));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Año:");
@@ -205,9 +285,6 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         jTextField8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField8.setMinimumSize(new java.awt.Dimension(6, 230));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Nº Chasis:");
-
         jTextField9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField9.setMinimumSize(new java.awt.Dimension(6, 230));
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
@@ -218,9 +295,6 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Nº Bastidor:");
-
-        jTextField10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTextField10.setMinimumSize(new java.awt.Dimension(6, 230));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("KM:");
@@ -273,7 +347,7 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         });
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Fecha y Hora:");
+        jLabel14.setText("Fecha:");
 
         jTextField13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField13.addActionListener(new java.awt.event.ActionListener() {
@@ -294,6 +368,11 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
         jButton9.setBorderPainted(false);
         jButton9.setContentAreaFilled(false);
         jButton9.setPreferredSize(new java.awt.Dimension(20, 20));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/CocheLateralDerSinRellenar.png"))); // NOI18N
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -348,15 +427,13 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -393,17 +470,18 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel12)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,30 +556,22 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel13)
                         .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(59, 59, 59)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jCheckBox1)
-                                    .addComponent(jCheckBox2)
-                                    .addComponent(jCheckBox3)
-                                    .addComponent(jCheckBox4)))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jCheckBox1)
+                                .addComponent(jCheckBox2)
+                                .addComponent(jCheckBox3)
+                                .addComponent(jCheckBox4))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -509,8 +579,20 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 43, Short.MAX_VALUE))
+                .addGap(0, 38, Short.MAX_VALUE))
         );
+
+        jButton6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(0, 0, 255));
+        jButton6.setText("Imprimir");
+        jButton6.setBorder(null);
+        jButton6.setBorderPainted(false);
+        jButton6.setContentAreaFilled(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -518,15 +600,20 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(20, 20, 20)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -545,6 +632,8 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
@@ -567,7 +656,7 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+       jButton2.setEnabled(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -576,6 +665,25 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        long i = 0;
+         try {
+             jButton5.setEnabled(false);
+             i = omc.verDBResult();
+             result = i + 1;
+            jTextField4.setText("" + result);
+            Date fecha = new Date();
+            String fecha2 = fecha.toString();
+            String[] fechas = fecha2.split(" ");
+            String dia =  Integer.toString(fecha.getDate());
+            String mes = Integer.toString(fecha.getMonth()+1);
+            String annio = fechas[fechas.length-1];
+            jTextField12.setText(dia+"-"+ mes + "-" + annio);
+         } catch (Exception ex) {
+             Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+         }
+            
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
@@ -624,37 +732,199 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-         ParteArribaCoche arrPart = new ParteArribaCoche();
-        arrPart.setVisible(true);
+        // TODO add your handling code here:ç
+        if(jButton2.isEnabled()){
+            arribaPart.datoId(jTextField4.getText());
+            arribaPart.setVisible(true);
+        }else arribaPart.setVisible(true);
+        
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
-        ParteDerCoche derPart = new ParteDerCoche();
-        derPart.setVisible(true);
+        
+        if(jButton2.isEnabled()){
+            derPart.datoId(jTextField4.getText());
+            derPart.setVisible(true);
+        }else derPart.setVisible(true);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
-         ParteIzqCoche izqPart = new ParteIzqCoche();
-         izqPart.setVisible(true);
+        
+        if(jButton2.isEnabled()){
+            izqPart.datoId(jTextField4.getText());
+            izqPart.setVisible(true);
+        }else izqPart.setVisible(true);
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
-         ParteDelanteraCoche delPart = new ParteDelanteraCoche();
-        delPart.setVisible(true);
+        if(jButton2.isEnabled()){
+            delanteraPart.datoId(jTextField4.getText());
+            delanteraPart.setVisible(true);
+        }else delanteraPart.setVisible(true);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-         ParteTraseraCoche trasPart = new ParteTraseraCoche();
-         trasPart.setVisible(true);
+        if(jButton2.isEnabled()){
+            traseraPart.datoId(jTextField4.getText());
+            traseraPart.setVisible(true);
+        }else traseraPart.setVisible(true);
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        Ordenmostrar om = new Ordenmostrar();
+        ReparacionEntity re = new ReparacionEntity();
+        Partearribacoche pac = new Partearribacoche();
+        Parteabajocoche pdc = new Parteabajocoche();
+        Partetraseracoche ptc = new Partetraseracoche();
+        Partedercoche pderc = new Partedercoche();
+        Parteizqcoche pic = new Parteizqcoche();
+            
+        if(jButton2.isEnabled()){
+            
+            re.setMatricula((String) esNull(jTextField4.getText()));
+            re.setMarca((String) esNull(jTextField4.getText()));
+            re.setModelo((String) esNull(jTextField6.getText()));
+            re.setAnio((String) esNull(jTextField3.getText()));
+            re.setColor((String) esNull(jTextField8.getText()));
+            re.setNumMotor((String) esNull(jTextField9.getText()));
+            re.setKm((String) esNull(jTextField7.getText()));
+            re.setNumBastidor((String) esNull(jTextField11.getText()));
+            if(jCheckBox1.isSelected()){
+                re.setCombustible("1/4");
+            }else if(jCheckBox2.isSelected()){
+                 re.setCombustible("1/2");
+            }else if(jCheckBox3.isSelected()){
+                 re.setCombustible("3/4");
+            }else if(jCheckBox4.isSelected()){
+                 re.setCombustible("Full");
+            }else{
+                re.setCombustible("-");
+            } 
+            Date fechaAlta = recombertirFecha(jTextField12.getText());
+            re.setFechaHora(fechaAlta);
+            
+            try {
+                Cliente cl = clienteDAO.findClientByName(jTextField13.getText());
+                re.setCliente(cl.getId());
+                om.setIdcliente(cl.getId());
+            } catch (Exception ex) {
+                Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            re.setObsInterna((String) esNull(jTextArea2.getText()));
+            
+            om.setFecha(fechaAlta);
+            om.setModelo((String) esNull(jTextField6.getText()));
+            om.setMarca((String) esNull(jTextField4.getText()));
+            
+            Partedercoche derParte1 = derPart.DevolverValores();
+            Parteizqcoche izqParte1 = izqPart.DevolverValores();
+            Parteabajocoche delanteraParte1 = delanteraPart.DevolverValores();
+            Partetraseracoche traseraParte1 = traseraPart.DevolverValores();
+            Partearribacoche arribaParte1 = arribaPart.DevolverValores();
+            
+            try {
+                ac.guardar(arribaParte1);
+                ad.guardar(delanteraParte1);
+                ader.guardar(derParte1);
+                ai.guardar(izqParte1);
+                at.guardar(traseraParte1);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else if(jButton5.isEnabled()){
+            re.setId(Integer.parseInt((String) esNull(jTextField4.getText())));
+            re.setMatricula((String) esNull(jTextField5.getText()));
+            re.setMarca((String) esNull(jTextField2.getText()));
+            re.setModelo((String) esNull(jTextField6.getText()));
+            re.setAnio((String) esNull(jTextField3.getText()));
+            re.setColor((String) esNull(jTextField8.getText()));
+            re.setNumMotor((String) esNull(jTextField9.getText()));
+            re.setKm((String) esNull(jTextField7.getText()));
+            re.setNumBastidor((String) esNull(jTextField11.getText()));
+            if(jCheckBox1.isSelected()){
+                re.setCombustible("1/4");
+            }else if(jCheckBox2.isSelected()){
+                 re.setCombustible("1/2");
+            }else if(jCheckBox3.isSelected()){
+                 re.setCombustible("3/4");
+            }else if(jCheckBox4.isSelected()){
+                 re.setCombustible("Full");
+            }else{
+                re.setCombustible("-");
+            } 
+            Date fechaAlta = recombertirFecha(jTextField12.getText());
+            re.setFechaHora(fechaAlta);
+            
+            try {
+                Cliente cl = clienteDAO.findClientByName(jTextField13.getText());
+                re.setCliente(cl.getId());
+                om.setIdcliente(cl.getId());
+            } catch (Exception ex) {
+                Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            re.setObsInterna((String) esNull(jTextArea2.getText()));
+            
+            om.setFecha(fechaAlta);
+            om.setModelo((String) esNull(jTextField6.getText()));
+            om.setMarca((String) esNull(jTextField4.getText()));
+            
+            
+            try {
+            Partedercoche derParte1 = derPart.DevolverValoresAModificar(Integer.parseInt((String) esNull(jTextField4.getText())));
+            Parteizqcoche izqParte1 = izqPart.DevolverValoresAModificar(Integer.parseInt((String) esNull(jTextField4.getText())));
+            Parteabajocoche delanteraParte1 = delanteraPart.DevolverValoresAModificar(Integer.parseInt((String) esNull(jTextField4.getText())));
+            Partetraseracoche traseraParte1 = traseraPart.DevolverValoresAModificar(Integer.parseInt((String) esNull(jTextField4.getText())));
+            Partearribacoche arribaParte1 = arribaPart.DevolverValoresAModificar(Integer.parseInt((String) esNull(jTextField4.getText())));
+            ac.guardar(arribaParte1);
+            ad.guardar(delanteraParte1);
+            ader.guardar(derParte1);
+            ai.guardar(izqParte1);
+            at.guardar(traseraParte1);
+            } catch (Exception ex) {
+                Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        CrearPDF pdf = new CrearPDF();
+         try {
+             //        int numRep = Integer.parseInt(jTextField4.getText());
+//         try {
+//             if(!jTextField4.getText().isEmpty()){
+//                 ReparacionEntity re = rc.buscar(numRep);
+//             pdf.createPDF(new File("F:\\PDFEntrega.pdf"),re);
+                pdf.createPDF(new File("F:\\PDFEntrega.pdf"));
+
+//         } catch (Exception ex) {
+//             Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+//         }
+//                
+         } catch (Exception ex) {
+             Logger.getLogger(Reparacion.class.getName()).log(Level.SEVERE, null, ex);
+         }
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -706,6 +976,7 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
@@ -725,14 +996,12 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
@@ -745,4 +1014,74 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+
+    private void rellenarHuecos(ReparacionEntity cl) throws Exception {
+        jTextField4.setText("" + esNull(cl.getId()).toString());
+        jTextField5.setText("" + esNull(cl.getMatricula()));
+        jTextField2.setText("" + esNull(cl.getMarca()));
+        jTextField6.setText("" + esNull(cl.getModelo()));
+        jTextField3.setText("" + esNull(cl.getAnio()));
+        jTextField8.setText("" + esNull(cl.getColor()));
+        jTextField9.setText("" + esNull(cl.getNumMotor()));
+        jTextField7.setText("" + esNull(cl.getKm()));
+        jTextField11.setText("" + esNull(cl.getNumBastidor()));
+        String combustible = cl.getCombustible();
+        switch(combustible){
+            case "1/4": jCheckBox1.setSelected(true);break;
+            case "1/2": jCheckBox2.setSelected(true);break;
+            case "3/4": jCheckBox3.setSelected(true);break;
+            case "Full": jCheckBox4.setSelected(true);break;
+            default:break;
+        }
+        Date fecha = cl.getFechaHora();
+        jTextField12.setText("" + esNull(formatoFecha(cl.getFechaHora())));
+        Cliente client2 = clienteDAO.findClientById(cl.getCliente());
+        jTextField13.setText("" + esNull(client2.getRazonSocial()));
+        jTextArea2.setText("" + esNull(cl.getObsInterna()));
+        
+        Partedercoche derParte = ader.findByIdReparacion(cl.getId());
+        Parteizqcoche izqParte = ai.findByIdReparacion(cl.getId());
+        Parteabajocoche delanteraParte = ad.findByIdReparacion(cl.getId());
+        Partetraseracoche traseraParte = at.findByIdReparacion(cl.getId());
+        Partearribacoche arribaParte = ac.findByIdReparacion(cl.getId());
+        
+        derPart = new ParteDerCoche(derParte);
+        izqPart = new ParteIzqCoche(izqParte);
+        delanteraPart = new ParteDelanteraCoche(delanteraParte);
+        traseraPart = new ParteTraseraCoche(traseraParte);
+        arribaPart = new ParteArribaCoche(arribaParte); 
+        
+    }
+     public Object esNull(Object dato) {
+        if (null == dato) {
+            return "-";
+        } else {
+            return dato;
+        }
+    }
+     
+     private String formatoFecha(Date fecha1) {
+
+        DateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
+        if ((esNull(fecha1)).equals("-")) {
+            return "-";
+        } else {
+            return fecha.format(fecha1);
+        }
+    }
+      public Date recombertirFecha(String fecha){
+        Date fecha3 = new Date();
+        if(fecha.contains("-")){
+            String[] fecha2 = fecha.split("-");
+            fecha3.setDate(Integer.parseInt(fecha2[0]));
+            fecha3.setMonth(Integer.parseInt(fecha2[1]));
+            fecha3.setYear(Integer.parseInt(fecha2[2]));
+        }else if(fecha.contains("/")){
+            String[] fecha2 = fecha.split("/");
+            fecha3.setDate(Integer.parseInt(fecha2[0]));
+            fecha3.setMonth(Integer.parseInt(fecha2[1]));
+            fecha3.setYear(Integer.parseInt(fecha2[2]));
+        }
+        return fecha3;
+    }
 }
