@@ -139,8 +139,6 @@ import satcar6.entity.ReparacionEntity;
                 
             } catch (BadElementException ex) {
                 System.out.println("Image BadElementException" +  ex);
-            } catch (IOException ex) {
-                System.out.println("Image IOException " +  ex);
             }
              
             // Second page - some elements
