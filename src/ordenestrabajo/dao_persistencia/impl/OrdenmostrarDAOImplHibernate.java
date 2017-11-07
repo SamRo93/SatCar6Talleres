@@ -19,13 +19,19 @@ import satcar6.util.HibernateUtil;
  */
 public class OrdenmostrarDAOImplHibernate extends GenericDAOImplHibernate<Ordenmostrar, Integer> implements OrdenmostrarDAO{
 
-    @Override
+	/**
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
     @SuppressWarnings("null")
-    public long verEnDB() throws Exception {
+    public List<Long> verEnDB() throws Exception {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        long i = (long) session.createQuery("Select Count(doc) From Ordenmostrar doc").uniqueResult();
-        return  i;
+      Query q =  session.createQuery("Select Count(doc) From Ordenmostrar doc");
+	  session.getTransaction().commit();
+	  return (List<Long>) q.list();
     }
 
     @Override

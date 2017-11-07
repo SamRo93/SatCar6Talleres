@@ -26,6 +26,8 @@ import satcar6.entity.Parteizqcoche;
 import satcar6.entity.Partetraseracoche;
 import Controller.CrearPDF;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -49,7 +51,7 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
     
     private ClienteDAO clienteDAO;
     
-    private long result = 1;
+    private int result = 1;
     
     ParteDerCoche derPart;
     ParteIzqCoche izqPart;
@@ -665,11 +667,12 @@ public class Reparacion extends javax.swing.JFrame implements Serializable {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        long i = 0;
+		@SuppressWarnings("UnusedAssignment")
+        List<Long> i = new ArrayList<Long>();
          try {
              jButton5.setEnabled(false);
              i = omc.verDBResult();
-             result = i + 1;
+             result =(int) (i.get(0) + 1.0);
             jTextField4.setText("" + result);
             Date fecha = new Date();
             String fecha2 = fecha.toString();

@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 11-jul-2017 20:30:24 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="satcar6.entity.Reparacion" table="reparacion" catalog="satcar6" optimistic-lock="version">
+    <class name="satcar6.entity.ReparacionEntity" table="reparacion" catalog="satcar6" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />

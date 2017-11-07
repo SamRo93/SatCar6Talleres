@@ -25,7 +25,7 @@ public class OrdenmostrarController {
         ordenmostrarDAO.saveOrUpdate(cliente);
     }
     
-    public long verDBResult() throws Exception{
+    public List<Long> verDBResult() throws Exception{
         return ordenmostrarDAO.verEnDB();
     }
     

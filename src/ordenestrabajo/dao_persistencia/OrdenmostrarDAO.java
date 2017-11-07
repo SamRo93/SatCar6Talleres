@@ -14,7 +14,7 @@ import satcar6.entity.Ordenmostrar;
  * @author Samuel
  */
 public interface OrdenmostrarDAO extends GenericDAO<Ordenmostrar, Integer>{
-    long verEnDB() throws Exception;
+    List<Long> verEnDB() throws Exception;
     List<Ordenmostrar> busquedaDB(String s, Object dato) throws Exception;
     Ordenmostrar busquedaId(int id) throws Exception;
 }
